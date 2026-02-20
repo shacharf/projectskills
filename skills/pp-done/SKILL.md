@@ -54,7 +54,13 @@ and mark the task as finished.
 7. **Clear Work in Progress** in `plan/plan.md`. Set the `## Work in Progress`
    section to empty (remove the filename).
 
-8. **Report to the user:**
+8. **Suggest commit for this task.** Before final reporting:
+   - Show the changed file list for the task (for example via `git status --short`)
+   - Suggest staging and committing these task changes
+   - Offer a default commit message, for example:
+     `Task {id}: complete {task title}`
+
+9. **Report to the user:**
    - Summary of what was completed
    - What was added to reference.md
    - How many tasks remain in plan.md
