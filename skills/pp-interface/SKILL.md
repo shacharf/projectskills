@@ -15,67 +15,53 @@ Design the public interface/API for the current task before writing implementati
    tell the user to run `/pp-task` first.
 
 2. **Read context:**
-   - The active `plan/task-{id}.md` (objective, acceptance criteria, dependencies)
-   - `plan/reference.md` (existing modules and their APIs for reuse)
-   - Relevant source files mentioned in the task's "Files to Touch" section
+   - Active `plan/task-{id}.md` (objective, acceptance criteria, dependencies)
+   - `plan/reference.md` (existing modules/APIs for reuse)
+   - `plan/language.md` (language/toolchain constraints)
+   - Relevant source files mentioned in "Files to Touch"
 
-3. **Design the interface.** Based on the task requirements, propose:
-   - Function signatures with type hints and docstrings
-   - Class interfaces (if applicable)
-   - CLI arguments or config schema (if applicable)
-   - Data structures and their relationships
+3. **Design the interface.** Based on task requirements, propose:
+   - Public function/method signatures with parameter and return types
+   - Class/module interfaces where applicable
+   - CLI arguments or config schema where applicable
+   - Data contracts and relationships
 
-   Focus on the PUBLIC API only -- what other modules will call. Internal
-   implementation details come later.
+   Focus on PUBLIC API only: what other modules/components will call.
 
 4. **Check for reuse.** Cross-reference with reference.md:
-   - Can existing modules be extended rather than creating new ones?
-   - Are there existing data structures to reuse?
-   - Can existing utilities be generalized to cover this use case?
+   - Can existing modules be extended instead of creating new ones?
+   - Are there existing data contracts to reuse?
+   - Can utilities be generalized for this use case?
 
-5. **Write the interface** into the `## Interface` section of `task-{id}.md`:
+5. **Write the interface** into `## Interface` section of `task-{id}.md`:
 
 ```markdown
 ## Interface
 
-### {module_name}.py
+### {path/to/module-or-file.ext}
 
-\```python
-def function_name(param: Type, param2: Type) -> ReturnType:
-    """One-line description.
-
-    Args:
-        param: What this is.
-        param2: What this is.
-
-    Returns:
-        What this returns.
-    """
-    ...
+\```text
+{Public signatures / command schema / config contract}
 \```
 
 ### Reuse from existing modules
 - Uses `{module}` from Task {n} for {purpose}
 ```
 
-6. **Check `[x] interface designed`** in the task's Progress section.
+6. **Check `[x] interface designed`** in task Progress.
 
-7. **Present the interface** to the user for approval. Show:
-   - The proposed signatures
-   - What existing code will be reused
-   - Any design decisions and trade-offs
+7. **Present the interface** for user approval:
+   - Proposed signatures/contracts
+   - Existing code to reuse
+   - Design decisions/trade-offs
 
-8. **Wait for approval.** The user may:
-   - Approve as-is
-   - Request changes (revise and re-present)
-   - Ask for alternative approaches
+8. **Wait for approval.** User may approve, request changes, or ask alternatives.
 
-9. **After approval**, tell the user to run `/pp-implement` or `/pp-next`.
+9. **After approval**, tell user to run `/pp-implement` or `/pp-next`.
 
 ## Key Principles
 
 - Interface-first: define WHAT before HOW
 - Reuse existing modules from reference.md
-- Type hints on everything
-- Docstrings on all public functions
-- Keep interfaces minimal -- expose only what's needed
+- Keep interface notation consistent with selected language profile
+- Keep interfaces minimal; expose only what is needed

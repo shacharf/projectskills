@@ -20,21 +20,24 @@ A human-gated project lifecycle managed through Cursor skills.
 
 ### Quick Start
 
-1. `/pp-init` -- scaffold a new project (creates `plan/` with templates)
+1. `/pp-init <language>` -- scaffold a new project (creates `plan/` with templates)
 2. `/pp-plan` -- brainstorm and create the project plan
 3. `/pp-next` -- advance to the next step (the orchestrator)
+
+`<language>` supports: `python`, `arduino` (`py` alias supported). If omitted,
+`/pp-init` prompts for language.
 
 ### Available Commands
 
 | Command | Purpose |
 |---------|---------|
-| `/pp-init` | Scaffold project: creates `plan/plan.md`, `reference.md`, `AGENTS.md` |
+| `/pp-init <language>` | Scaffold project: creates `plan/plan.md`, `reference.md`, `language.md`, `AGENTS.md` |
 | `/pp-plan` | Create or revise the project plan through brainstorming |
 | `/pp-task` | Plan the next task from plan.md, create `task-{id}.md` |
 | `/pp-interface` | Design the public interface/API for the current task |
 | `/pp-implement` | Implement the current task |
 | `/pp-review` | Review the implementation (optional) |
-| `/pp-test` | Create and run a minimal test |
+| `/pp-test` | Create and run a minimal test/check |
 | `/pp-done` | Complete the task, update reference.md and plan.md |
 | `/pp-next` | Orchestrator: determine and run the next step |
 | `/pp-next auto` | Auto-advance through steps, pausing at approval gates |
@@ -73,7 +76,8 @@ Or say "replan" at any orchestrator prompt.
 
 - `plan/plan.md` -- task list with checkboxes (source of truth)
 - `plan/reference.md` -- accumulated project knowledge
+- `plan/language.md` -- selected language/toolchain profile
 - `plan/task-{id}.md` -- current task plan and progress
-- `plan/AGENTS.md` -- coding standards
+- `plan/AGENTS.md` -- coding standards for selected language
 
 ---

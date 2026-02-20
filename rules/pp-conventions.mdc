@@ -13,22 +13,20 @@ When a `plan/` directory exists in the project root, this project uses the PP
 
 - `plan/plan.md` -- ordered task list with `[x]`/`[ ]` checkboxes
 - `plan/reference.md` -- accumulated knowledge from completed tasks
+- `plan/language.md` -- language/toolchain profile for this project
 - `plan/task-{id}.md` -- per-task plan with Progress checklist
 - `plan/AGENTS.md` -- coding standards for this project
 
 ## Methodology
 
-- **Interface-first**: design the public API before writing implementation
+- **Interface-first**: design the public API before implementation
 - **Human-gated**: plan, task, and interface require human approval
 - **Incremental**: small tasks, each fully documented before moving on
 - **Reuse**: check reference.md for existing modules before writing new code
-- **Generalize**: if you find duplicated code, refactor into shared utility
+- **Generalize**: if duplicated code appears, refactor into shared utility
 - **Self-contained docs**: anyone reading plan files can continue without extra context
 
 ## Coding Guidelines
 
-Read and follow `plan/AGENTS.md` for project-specific coding standards.
-
-- Use existing python modules over hand-rolling solutions
-- Use type hints on all function signatures
-- Keep modules focused: one responsibility per file
+Read and follow `plan/AGENTS.md` for language/runtime-specific coding standards.
+Respect `plan/language.md` for toolchain and test workflow conventions.

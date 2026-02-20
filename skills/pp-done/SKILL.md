@@ -34,7 +34,7 @@ and mark the task as finished.
    module created or significantly modified:
 
 ```markdown
-### Module: {path/to/module.py} (Task {id})
+### Module: {path/to/module-or-file.ext} (Task {id})
 - **Purpose:** {what this module does}
 - **Key functions/classes:** {public API}
 - **Decisions:** {why it was built this way}

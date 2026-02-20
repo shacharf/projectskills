@@ -16,46 +16,46 @@ Create and run a minimal test for the current task.
 
 2. **Read context:**
    - `plan/task-{id}.md` -- acceptance criteria (this defines what to test)
+   - `plan/language.md` -- test and validation defaults for selected language
    - The implementation source files
 
-3. **Create ONE focused test** (or a small smoke script) that validates the core
-   behavior defined in the acceptance criteria. This is NOT a comprehensive test
-   suite -- just enough to verify the task works.
+3. **Create ONE focused test** (or a small smoke script) that validates core
+   behavior from acceptance criteria. This is NOT a comprehensive suite.
 
-   Choose the test approach based on what's being tested:
-   - Python module → pytest test file
-   - CLI tool → shell script that runs commands and checks output
-   - API → script that makes requests and validates responses
-   - Data processing → script with sample input and expected output
+   Choose test approach based on artifact and language profile:
+   - Library/module -> unit/integration test file in project test framework
+   - CLI -> command script validating output/exit behavior
+   - API/service -> request script validating responses
+   - Embedded/hardware workflow -> compile check + focused behavior smoke validation
 
-4. **Write the test file** in the project's test directory (create if needed).
-   The test should:
+4. **Write the test/check file** in the project's test or validation directory.
+   The test/check should:
    - Be runnable with a single command
-   - Cover the core acceptance criteria (not every edge case)
+   - Cover core acceptance criteria
    - Have clear pass/fail output
-   - Include the run command in a comment at the top
+   - Include run command in a top comment when relevant
 
-5. **Run the test.** Execute it and capture the output.
+5. **Run the test/check.** Execute it and capture output.
 
 6. **Apply verification-before-completion discipline:**
-   - You MUST run the test before claiming it passes
-   - Report the actual output, not what you expect
-   - If the test fails, report the failure with actionable details
+   - MUST run before claiming pass
+   - Report actual output, not expected output
+   - If failed, report failure with actionable details
    - Do NOT claim success without evidence
 
-7. **Check `[x] tested`** in the task's Progress section (only if the test passes).
+7. **Check `[x] tested`** in task Progress (only if test/check passes).
 
 8. **Report results:**
-   - Test file location
-   - Command to run it
-   - Actual output (pass or fail)
-   - If failed: what went wrong, suggested fix
+   - Test/check file location
+   - Command used
+   - Actual output (pass/fail)
+   - If failed: what went wrong and suggested fix
 
 9. **Tell the user** to run `/pp-done` or `/pp-next` next.
 
 ## If the Test Fails
 
-- Report the failure clearly
-- Do NOT mark "tested" as complete
+- Report failure clearly
+- Do NOT mark "tested" complete
 - Suggest specific fixes
-- The user can fix the issue and re-run `/pp-test`
+- User can fix and re-run `/pp-test`
