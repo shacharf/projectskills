@@ -30,7 +30,18 @@ Scaffold or migrate PP project management files.
 
 5. **Ensure pipeline config exists:**
    - Create `plan/PIPELINE.md` from `assets/pipeline-template.md` if missing
-   - If present, keep user-customized content
+   - If present, keep user-customized content, but normalize legacy shape to
+     canonical schema when needed.
+   - Legacy normalization rules:
+     - Heading `# PP Pipeline` -> `# Pipeline`
+     - Missing `version` -> add `version: 1`
+     - Scalar actions (e.g. `actions: pp-task`) ->
+       list form:
+       `actions:`
+       `  - skill: pp-task`
+   - Preserve existing stage order and checkbox semantics during normalization.
+   - Do not require users to manually rewrite `PIPELINE.md` for these format
+     differences.
 
 6. **Run one-time migration for existing tasks (if needed):**
    - Read stage IDs from `plan/PIPELINE.md`

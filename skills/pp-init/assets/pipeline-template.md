@@ -41,13 +41,6 @@ on_error: pause
   approval_gate: false
   auto_behavior: run
 
-- id: committed
-  label: Committed
-  actions:
-    - skill: pp-commit
-  approval_gate: false
-  auto_behavior: run
-
 - id: completed
   label: Completed
   actions:

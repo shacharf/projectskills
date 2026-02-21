@@ -50,6 +50,13 @@ These are user-facing runtime commands for pipeline control and visibility:
   Show current task/stage state and next action.
 - `/pp-pipeline`  
   Validate and summarize `plan/PIPELINE.md`.
+- `/pp-pipeline-edit`  
+  Edit `plan/PIPELINE.md` (wizard), or use `summary` / `print`.
+
+`/pp-pipeline-edit` notes:
+- `summary` prints ordered stages with gates/auto/actions
+- `print` outputs the full raw pipeline file
+- structural edits migrate only the active task if one exists
 
 ## Internal Actions (Not Primary User Commands)
 
