@@ -48,7 +48,7 @@ Design the public interface/API for the current task before writing implementati
 - Uses `{module}` from Task {n} for {purpose}
 ```
 
-6. **Check `[x] interface designed`** in task Progress.
+6. **Check `[x] interface-designed`** in task Progress.
 
 7. **Present the interface** for user approval:
    - Proposed signatures/contracts

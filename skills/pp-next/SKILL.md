@@ -1,112 +1,95 @@
 ---
 name: pp-next
-description: PP orchestrator. Determines and executes the next step in the project lifecycle. Supports step and auto modes.
+description: PP orchestrator. Determines and executes the next step from plan/PIPELINE.md. Supports step and auto modes.
 disable-model-invocation: true
 ---
 
 # PP Next -- Orchestrator
 
-Drive the PP pipeline. Determine the next step and either ask for confirmation
-(step mode) or auto-advance (auto mode).
+Drive the project-specific PP pipeline from `plan/PIPELINE.md`.
 
 ## Mode Selection
 
-- `/pp-next` -- step mode (default): show next step, ask user to confirm
-- `/pp-next auto` -- auto mode: execute steps automatically, pause at approval gates
+- `/pp-next` -- step mode (default): show next stage, ask user to confirm
+- `/pp-next auto` -- auto mode: execute stages automatically, pause at approval gates
 
-Check the user's input after the slash command. If they typed "auto" (or similar),
-use auto mode. Otherwise use step mode.
+Check user input after slash command. If it includes `auto`, use auto mode.
 
 ## Instructions
 
 ### Step 1: Derive Current State
 
-Read `plan/plan.md` to determine where we are:
+1. **Check if `plan/` exists.** If not -> tell user to run `/pp-init`.
 
-1. **Check if plan/ exists.** If not → tell user to run `/pp-init`.
+2. **Read `plan/plan.md`.** Determine:
+   - Project has tasks or needs `/pp-plan`
+   - Current `## Work in Progress` task file
 
-2. **Read plan/plan.md.** Check if it has a `## Tasks` section with entries.
-   - No tasks → state is **needs-plan**. Next action: `/pp-plan`.
+3. **Read `plan/PIPELINE.md`.** If missing -> tell user to run `/pp-init` to
+   migrate/generate pipeline config.
 
-3. **Read the `## Work in Progress` section** in plan.md.
-   - If it contains a filename (e.g., `task-3.md`) → read `plan/{filename}`.
-     The first unchecked `[ ]` item in its `## Progress` section is the **current step**.
-   - If WIP is empty (blank or contains `none`):
-     - Find the first `- [ ]` task in the `## Tasks` list.
-     - If found → state is **needs-task**. Next action: `/pp-task`.
-     - If all tasks are `[x]` → state is **project-complete**.
+4. **Determine active stage:**
+   - If no tasks -> state `needs-plan` (next action: `/pp-plan`)
+   - If WIP empty and unchecked tasks remain -> state `needs-task` (next action: `/pp-task`)
+   - If WIP task exists -> read its `## Progress` and find first unchecked stage ID
+   - If all stage IDs are checked -> task pipeline is complete; move to next task
+     (or project-complete if none remain)
 
-### Step 2: Map Progress Item to Skill
+### Step 2: Resolve Stage Metadata
 
-| Progress Item | Skill to Run | Approval Gate? |
-|---------------|-------------|----------------|
-| task planned | pp-task | Yes |
-| interface designed | pp-interface | Yes |
-| implemented | pp-implement | No |
-| reviewed | pp-review | No (skippable) |
-| tested | pp-test | No |
-| completed | pp-done | No |
+From `plan/PIPELINE.md` for current stage ID:
+- `label`
+- `actions` (one-or-many skills)
+- `approval_gate`
+- `auto_behavior`
 
-Special states:
-- **needs-plan** → pp-plan (approval gate: yes)
-- **needs-task** → pp-task (approval gate: yes)
-- **project-complete** → congratulate user, suggest `/pp-plan` to add more tasks
+If stage ID in task Progress is missing from pipeline stages, report config mismatch.
 
 ### Step 3: Execute (Step Mode)
 
-In step mode, present the state and ask the user:
+Present state and ask:
 
 ```
 PP Status: Task {id} - {title}
-Current step: {step name}
-Next action: /pp-{skill}
+Current stage: {stage_id} ({label})
+Next action(s): {skill list}
 
 What would you like to do?
-  [yes]    - Run this step
-  [skip]   - Skip to the next step
-  [replan] - Revise the project plan
+  [yes]    - Run this stage
+  [skip]   - Mark this stage done and continue
+  [replan] - Revise project plan
   [auto]   - Switch to auto mode
   [stop]   - Pause here
 ```
 
-Use the AskQuestion tool with these options. Then:
-
-- **yes**: Execute the corresponding skill's instructions inline (read the skill's
-  SKILL.md and follow its instructions).
-- **skip**: Mark the current progress item as `[x]` in the task file and re-derive
-  state. Then present the next step.
-- **replan**: Follow the pp-plan skill instructions to revise plan.md.
-- **auto**: Switch to auto mode (see below).
-- **stop**: Tell the user they can resume later with `/pp-next`.
+Then:
+- **yes**: execute stage via `pp-stage-runner`
+- **skip**: mark current stage ID `[x]` in task Progress, then re-derive state
+- **replan**: follow `pp-plan`
+- **auto**: switch to auto mode
+- **stop**: exit cleanly
 
 ### Step 4: Execute (Auto Mode)
 
-In auto mode, execute steps sequentially without asking, EXCEPT at approval gates:
-
-1. Determine next step (same as step mode)
-2. If the step has an **approval gate** (pp-plan, pp-task, pp-interface):
-   - Execute the skill
-   - Present the result to the user
+1. Determine next stage.
+2. If stage `auto_behavior: skip`, mark `[x]` and continue.
+3. If stage has `approval_gate: true`:
+   - Execute stage
+   - Present result
    - Ask for approval before continuing
-3. If the step has **no approval gate** (pp-implement, pp-review, pp-test, pp-done):
-   - Execute the skill immediately
-   - Report the result
-   - Continue to the next step
-4. **pp-review is auto-skipped** in auto mode: mark `[x] reviewed` and continue.
-5. After pp-done completes, check if more tasks remain. If yes, continue with
-   pp-task for the next one. If no, report project complete.
+4. If stage has `approval_gate: false`:
+   - Execute stage immediately
+   - Continue to next stage
 
-### Step 5: After Each Step
+### Step 5: After Each Stage
 
-After executing any step:
-1. Verify the progress item was checked `[x]` in the task file
-2. Re-derive state for the next iteration
-3. In step mode: present the next step and ask again
-4. In auto mode: continue to the next step
+1. Verify the stage ID was checked `[x]` in task Progress.
+2. Re-derive state.
+3. In step mode: show next stage and ask again.
+4. In auto mode: continue until pause condition or project completion.
 
 ## Error Handling
 
-- If a step fails (e.g., test fails), report the failure and switch to step mode
-  so the user can decide how to proceed.
-- If plan files are missing or malformed, report the issue and suggest `/pp-init`
-  or manual fixes.
+- If action skill fails, report failure and switch to step mode.
+- If pipeline config is missing/malformed, report exact issue and suggest `/pp-pipeline`.
+- If task Progress and pipeline stage IDs diverge, report mismatch and suggest migration via `/pp-init`.

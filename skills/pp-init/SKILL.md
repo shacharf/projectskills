@@ -1,53 +1,63 @@
 ---
 name: pp-init
-description: Scaffold a new PP project structure with plan/, templates, and language profile configuration.
+description: Scaffold or migrate a PP project structure with plan/, templates, language profile, and project-specific pipeline configuration.
 disable-model-invocation: true
 ---
 
 # PP Init
 
-Scaffold the project management structure for a new PP-managed project.
+Scaffold or migrate PP project management files.
 
 ## Instructions
 
-1. **Check if `plan/` already exists.** If it does, tell the user and ask if they want
-   to reinitialize (which would overwrite templates).
+1. **Detect project state:**
+   - If `plan/` does not exist: initialize a new PP project
+   - If `plan/` exists: run migration-safe init (preserve existing plan content)
 
-2. **Collect project name.** Use AskQuestion:
-   - "What is the project name?"
+2. **Collect project name for new setup.** Use AskQuestion when creating new `plan/`.
 
 3. **Resolve primary language.**
-   - Parse optional command argument from `/pp-init <language>`.
-   - Supported canonical values: `python`, `arduino`.
-   - Supported alias: `py` -> `python`.
-   - If no argument is provided, ask the user to choose language (`python` or `arduino`).
-   - If value is invalid, show valid options and ask again.
+   - Parse optional `/pp-init <language>` argument
+   - Canonical: `python`, `arduino`
+   - Alias: `py` -> `python`
+   - Ask user if missing/invalid
 
-4. **Create `plan/` directory** with generic templates from this skill's `assets/`
-   directory, replacing `{PROJECT_NAME}` where applicable:
+4. **Ensure base files exist** (create if missing):
+   - `plan/plan.md` from `assets/plan-template.md`
+   - `plan/reference.md` from `assets/reference-template.md`
+   - `plan/language.md` from `assets/languages/{language}/language-template.md`
+   - `plan/AGENTS.md` from `assets/languages/{language}/agents-template.md`
 
-   - `plan/plan.md` -- from `assets/plan-template.md`
-   - `plan/reference.md` -- from `assets/reference-template.md`
+5. **Ensure pipeline config exists:**
+   - Create `plan/PIPELINE.md` from `assets/pipeline-template.md` if missing
+   - If present, keep user-customized content
 
-5. **Generate language profile files** from this skill's language assets:
-   - `plan/language.md` -- from `assets/languages/{language}/language-template.md`
-   - `plan/AGENTS.md` -- from `assets/languages/{language}/agents-template.md`
+6. **Run one-time migration for existing tasks (if needed):**
+   - Read stage IDs from `plan/PIPELINE.md`
+   - For each `plan/task-*.md`, map legacy labels to stage IDs:
+     - `task planned` -> `task-planned`
+     - `interface designed` -> `interface-designed`
+     - `implemented` -> `implemented`
+     - `reviewed` -> `reviewed`
+     - `tested` -> `tested`
+     - `completed` -> `completed`
+   - Preserve checkbox state and stage order from pipeline where possible
 
-6. **Copy the PP rule** to the project's `.cursor/rules/` directory:
-   - Copy `pp-conventions.mdc` so PP conventions are active.
-   - Create `.cursor/rules/` if it does not exist.
+7. **Copy PP rule** to `.cursor/rules/pp-conventions.mdc`.
 
-7. **Report success** to the user:
-   - Show project name + selected language
-   - List created files
-   - Tell them to run `/pp-plan` next, or `/pp-next` for orchestration
+8. **Report success:**
+   - New or migrated mode
+   - Selected language
+   - Whether `PIPELINE.md` was created or reused
+   - Tell user to run `/pp-pipeline`, `/pp-plan`, or `/pp-next`
 
 ## Template Locations
 
 ### Generic templates (`skills/pp-init/assets/`)
 - `assets/plan-template.md`
 - `assets/reference-template.md`
-- `assets/task-template.md` (used later by `pp-task`)
+- `assets/task-template.md`
+- `assets/pipeline-template.md`
 
 ### Language templates (`assets/languages/{language}/`)
 - `agents-template.md`

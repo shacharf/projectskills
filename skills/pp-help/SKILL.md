@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # PP Help
 
-Display the PP (Project Planning & Implementing) workflow guide to the user.
+Display the PP (Project Planning & Implementing) workflow guide.
 
 ## Instructions
 
@@ -16,68 +16,73 @@ Print the following guide to the user:
 
 **PP -- Project Planning & Implementing**
 
-A human-gated project lifecycle managed through Cursor skills.
+A human-gated project lifecycle managed through project-local skills and a
+project-specific pipeline in `plan/PIPELINE.md`.
 
 ### Quick Start
 
-1. `/pp-init <language>` -- scaffold a new project (creates `plan/` with templates)
-2. `/pp-plan` -- brainstorm and create the project plan
-3. `/pp-next` -- advance to the next step (the orchestrator)
+1. `/pp-init <language>` -- scaffold or migrate project planning files
+2. `/pp-plan` -- create or revise the task plan
+3. `/pp-next` -- run the next stage from the pipeline
 
-`<language>` supports: `python`, `arduino` (`py` alias supported). If omitted,
-`/pp-init` prompts for language.
+`<language>` supports: `python`, `arduino` (`py` alias supported).
 
 ### Available Commands
 
 | Command | Purpose |
 |---------|---------|
-| `/pp-init <language>` | Scaffold project: creates `plan/plan.md`, `reference.md`, `language.md`, `AGENTS.md` |
-| `/pp-plan` | Create or revise the project plan through brainstorming |
-| `/pp-task` | Plan the next task from plan.md, create `task-{id}.md` |
-| `/pp-interface` | Design the public interface/API for the current task |
-| `/pp-implement` | Implement the current task |
-| `/pp-review` | Review the implementation (optional) |
-| `/pp-test` | Create and run a minimal test/check |
-| `/pp-done` | Complete the task, update reference.md and plan.md |
-| `/pp-next` | Orchestrator: determine and run the next step |
-| `/pp-next auto` | Auto-advance through steps, pausing at approval gates |
-| `/pp-status` | Show current project state |
+| `/pp-init <language>` | Scaffold/migrate `plan/` files including `PIPELINE.md` |
+| `/pp-plan` | Create or revise project task list |
+| `/pp-task` | Plan next task, create `task-{id}.md` |
+| `/pp-interface` | Design public interface for active task |
+| `/pp-implement` | Implement active task |
+| `/pp-review` | Review implementation |
+| `/pp-test` | Create and run minimal verification |
+| `/pp-commit` | Suggest and track task commit step |
+| `/pp-done` | Finalize task docs and mark task done |
+| `/pp-pipeline` | Validate and summarize pipeline config |
+| `/pp-next` | Orchestrator based on `PIPELINE.md` |
+| `/pp-next auto` | Auto-advance with per-stage gate rules |
+| `/pp-status` | Show project and active stage status |
 | `/pp-help` | Show this guide |
 
-### Workflow
+### Pipeline-Driven Workflow
 
-```
-pp-init → pp-plan → [approve] → pp-task → [approve] → pp-interface → [approve]
-→ pp-implement → pp-review (optional) → pp-test → pp-done → pp-task (next) ...
-```
+`/pp-next` uses ordered stages in `plan/PIPELINE.md`.
+Default pipeline:
 
-### Orchestrator Modes
+`task-planned -> interface-designed -> implemented -> reviewed -> tested -> committed -> completed`
 
-- **Step mode** (`/pp-next`): shows the next step, asks you to confirm
-  - `yes` -- run this step
-  - `skip` -- skip to next step
-  - `replan` -- go back to planning
-  - `auto` -- switch to auto mode
-  - `stop` -- pause, resume later with `/pp-next`
-- **Auto mode** (`/pp-next auto`): runs steps automatically, pausing at approval gates
+Projects can customize stage order, approval gates, and auto-skip behavior in
+`plan/PIPELINE.md`.
 
-### Approval Gates (always pause)
+### `/pp-next` Controls
 
-- After plan creation (pp-plan)
-- After task planning (pp-task)
-- After interface design (pp-interface)
+In **step mode** (`/pp-next`), the orchestrator prompts for:
 
-### Replanning
+- `yes` -- run the current stage actions
+- `skip` -- mark current stage as complete and move on
+- `replan` -- run `/pp-plan` to revise tasks
+- `auto` -- switch to auto mode
+- `stop` -- pause orchestration
 
-Call `/pp-plan` at any time to revise the task list. Completed tasks stay checked.
-Or say "replan" at any orchestrator prompt.
+In **auto mode** (`/pp-next auto`):
+
+- Stages with `auto_behavior: skip` are auto-marked complete
+- Stages with `approval_gate: true` pause for approval before continuing
+- Stages with `approval_gate: false` continue automatically
+
+### Approval Gates
+
+Approval is per stage via `approval_gate: true|false` in `plan/PIPELINE.md`.
 
 ### Plan Files
 
-- `plan/plan.md` -- task list with checkboxes (source of truth)
+- `plan/plan.md` -- task list and active task pointer
+- `plan/PIPELINE.md` -- ordered stage config (source of truth for workflow)
 - `plan/reference.md` -- accumulated project knowledge
-- `plan/language.md` -- selected language/toolchain profile
-- `plan/task-{id}.md` -- current task plan and progress
-- `plan/AGENTS.md` -- coding standards for selected language
+- `plan/language.md` -- language/toolchain profile
+- `plan/task-{id}.md` -- task plan and stage progress
+- `plan/AGENTS.md` -- coding standards
 
 ---
