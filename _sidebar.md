@@ -23,3 +23,4 @@
 * [skills/pp-status/SKILL.md](skills/pp-status/SKILL.md)
 * [skills/pp-task/SKILL.md](skills/pp-task/SKILL.md)
 * [skills/pp-test/SKILL.md](skills/pp-test/SKILL.md)
+* [skills/pp-todo/SKILL.md](skills/pp-todo/SKILL.md)

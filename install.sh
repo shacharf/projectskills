@@ -26,14 +26,19 @@ PLATFORMS=(cursor claude codex)
 pp_skills=(
     pp-help
     pp-init
+    pp-todo
     pp-status
     pp-plan
+    pp-pipeline
+    pp-pipeline-edit
     pp-task
     pp-next
+    pp-stage-runner
     pp-interface
     pp-implement
     pp-review
     pp-test
+    pp-commit
     pp-done
 )
 
@@ -97,6 +102,9 @@ install_pp() {
     echo "Available commands in chat:"
     echo "  /pp-init       Scaffold a new project"
     echo "  /pp-plan       Create or revise the project plan"
+    echo "  /pp-todo       Add/list future-reference TODO items"
+    echo "  /pp-pipeline   Validate/summarize pipeline config"
+    echo "  /pp-pipeline-edit  Edit pipeline (wizard/summary/print)"
     echo "  /pp-task       Plan the next task"
     echo "  /pp-interface  Design the interface"
     echo "  /pp-implement  Implement the task"
@@ -168,7 +176,7 @@ show_help() {
     echo "Platforms: cursor, claude, codex"
     echo ""
     echo "Capability support:"
-    echo "  Skills (11):    cursor, claude, codex"
+    echo "  Skills (16):    cursor, claude, codex"
     echo "  Subagent:       cursor, claude"
     echo "  Rules (.mdc):   cursor"
     echo ""

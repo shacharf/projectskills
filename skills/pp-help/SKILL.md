@@ -41,6 +41,8 @@ project-specific pipeline in `plan/PIPELINE.md`.
 | `/pp-commit` | Suggest and track task commit step |
 | `/pp-done` | Finalize task docs and mark task done |
 | `/pp-pipeline` | Validate and summarize pipeline config |
+| `/pp-pipeline-edit` | Edit pipeline config (wizard), or use `summary` / `print` modes |
+| `/pp-todo` | Add/list future-reference TODO items in `plan/todo.md` (not pipeline-driven) |
 | `/pp-next` | Orchestrator based on `PIPELINE.md` |
 | `/pp-next auto` | Auto-advance with per-stage gate rules |
 | `/pp-status` | Show project and active stage status |
@@ -51,7 +53,7 @@ project-specific pipeline in `plan/PIPELINE.md`.
 `/pp-next` uses ordered stages in `plan/PIPELINE.md`.
 Default pipeline:
 
-`task-planned -> interface-designed -> implemented -> reviewed -> tested -> committed -> completed`
+`task-planned -> interface-designed -> implemented -> reviewed -> tested -> completed`
 
 Projects can customize stage order, approval gates, and auto-skip behavior in
 `plan/PIPELINE.md`.
@@ -75,6 +77,14 @@ In **auto mode** (`/pp-next auto`):
 ### Approval Gates
 
 Approval is per stage via `approval_gate: true|false` in `plan/PIPELINE.md`.
+
+### Pipeline Editing
+
+- `/pp-pipeline-edit` starts a guided edit wizard with preview before apply.
+- `/pp-pipeline-edit summary` prints stage summary (`id`, `label`, gate, auto, actions).
+- `/pp-pipeline-edit print` prints raw `plan/PIPELINE.md`.
+- Structural edits migrate only the active task (from Work in Progress). If none
+  is active, pipeline is edited without task migration.
 
 ### Plan Files
 

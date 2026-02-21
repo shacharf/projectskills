@@ -6,8 +6,7 @@ disable-model-invocation: true
 
 # PP Done
 
-Complete the active task and close planning artifacts. Commit handling belongs to
-`pp-commit` when present in the pipeline.
+Complete the active task, commit final task artifacts, and close planning state.
 
 ## Instructions
 
@@ -29,17 +28,33 @@ Complete the active task and close planning artifacts. Commit handling belongs t
 
 5. **Update `plan/plan.md`:**
    - Mark this task `[x]` in `## Tasks`
-   - Clear `## Work in Progress`
 
 6. **Mark final stage complete** in task Progress (`[x] completed` in default pipeline).
 
-7. **Report result:**
+7. **Clear `## Work in Progress`** in `plan/plan.md`.
+
+8. **Prepare commit for final task artifacts:**
+   - Show `git status --short`
+   - Suggest default commit message: `Task {id}: complete {task title}`
+   - Ask user to confirm commit now or proceed without commit
+   - If user confirms commit:
+     - Execute `pp-commit` and pass context (task id/title + suggested message)
+     - Ensure commit includes:
+       - implementation changes
+       - `plan/task-{id}.md` summary updates
+       - `plan/reference.md` updates
+       - `plan/plan.md` task completion + WIP clear updates
+     - If commit fails, report failure and keep status as `commit pending`
+   - If user declines commit, continue with status `commit skipped by user`
+
+9. **Report result:**
    - Summary of completion
+   - Commit status (`committed`, `commit pending`, or `commit skipped by user`)
    - reference.md changes
    - Remaining task count
    - Suggest `/pp-task` or `/pp-next`
 
 ## Notes
 
-- Do not suggest or perform commit operations here.
-- If pipeline includes a commit stage, that is handled by `pp-commit`.
+- If the project pipeline includes a dedicated commit stage, avoid duplicate
+  commits and follow pipeline order.
