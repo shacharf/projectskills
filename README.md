@@ -58,6 +58,15 @@ These are user-facing runtime commands for pipeline control and visibility:
 - `print` outputs the full raw pipeline file
 - structural edits migrate only the active task if one exists
 
+## Utility Commands
+
+These commands are intentionally independent from task planning and pipeline stages:
+
+- `/pp-todo`  
+  List future-reference TODO items from `plan/todo.md`.
+- `/pp-todo "text"`  
+  Add a new TODO item to `plan/todo.md`.
+
 ## Internal Actions (Not Primary User Commands)
 
 These skills are orchestration internals and are usually invoked through `/pp-next`:

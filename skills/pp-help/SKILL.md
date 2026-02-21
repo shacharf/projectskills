@@ -42,6 +42,7 @@ project-specific pipeline in `plan/PIPELINE.md`.
 | `/pp-done` | Finalize task docs and mark task done |
 | `/pp-pipeline` | Validate and summarize pipeline config |
 | `/pp-pipeline-edit` | Edit pipeline config (wizard), or use `summary` / `print` modes |
+| `/pp-todo` | Add/list future-reference TODO items in `plan/todo.md` (not pipeline-driven) |
 | `/pp-next` | Orchestrator based on `PIPELINE.md` |
 | `/pp-next auto` | Auto-advance with per-stage gate rules |
 | `/pp-status` | Show project and active stage status |
