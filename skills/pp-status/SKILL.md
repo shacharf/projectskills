@@ -1,33 +1,37 @@
 ---
 name: pp-status
-description: Show current PP project state including task progress and next action.
+description: Show current PP project state including dynamic pipeline stage progress and next action.
 disable-model-invocation: true
 ---
 
 # PP Status
 
-Show the current project state at a glance.
+Show project state derived from `plan/plan.md` and `plan/PIPELINE.md`.
 
 ## Instructions
 
-1. **Check that plan/ exists.** If not, tell the user to run `/pp-init` first.
+1. **Check that plan/ exists.** If not, tell user to run `/pp-init`.
 
-2. **Read plan/plan.md.** Extract:
-   - Project name (from the `#` heading)
-   - The task list under `## Tasks`
-   - Count completed `[x]` vs incomplete `[ ]` tasks
+2. **Read `plan/plan.md`.** Extract:
+   - Project name
+   - Tasks under `## Tasks`
+   - Completed vs incomplete counts
 
-3. **Read the `## Work in Progress` section** in plan.md.
-   - If it contains a filename → read `plan/{filename}` and extract its `## Progress` checklist.
-   - If empty → no task is currently active.
+3. **Read `plan/PIPELINE.md`.**
+   - Extract ordered stage IDs/labels
+   - If missing, report and suggest `/pp-init`
 
-4. **Determine the next action:**
-   - No tasks in plan.md → next action is `/pp-plan`
-   - WIP has a filename → next action is the first unchecked Progress step in that task
-   - WIP is empty + unchecked tasks remain → next action is `/pp-task`
-   - WIP is empty + all tasks are `[x]` → project is complete
+4. **Read `## Work in Progress` from `plan/plan.md`:**
+   - If filename exists -> read active task Progress
+   - If empty -> no active task
 
-5. **Display a summary** in this format:
+5. **Determine next action:**
+   - No tasks -> `/pp-plan`
+   - Active task -> first unchecked stage ID and mapped action skill list
+   - No active task + unchecked tasks -> `/pp-task`
+   - No active task + all tasks complete -> project complete
+
+6. **Display summary:**
 
 ```
 PP Project Status: {project name}
@@ -35,21 +39,13 @@ PP Project Status: {project name}
 
 Tasks: {completed}/{total} complete
 
-{For each task in plan.md, show:}
-  [x] 1. Task name
-  [x] 2. Task name
-  [ ] 3. Task name  ← active
-  [ ] 4. Task name
+{task checklist from plan.md}
 
-{If active task exists:}
+{if active task}
 Active Task: {task title}
   Progress:
-    [x] task planned
-    [x] interface designed
-    [ ] implemented  ← current step
-    [ ] reviewed
-    [ ] tested
-    [ ] completed
+    [x] {stage_id} ({label})
+    [ ] {stage_id} ({label})  <- current
 
-Next action: /pp-implement (or /pp-next to advance)
+Next action: {skill(s)} (or /pp-next)
 ```

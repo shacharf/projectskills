@@ -6,69 +6,40 @@ disable-model-invocation: true
 
 # PP Done
 
-Complete the current task: summarize what was done, update project documentation,
-and mark the task as finished.
+Complete the active task and close planning artifacts. Commit handling belongs to
+`pp-commit` when present in the pipeline.
 
 ## Instructions
 
-1. **Find the active task.** Read the `## Work in Progress` section in `plan/plan.md`
-   to get the current task filename. Read that file from `plan/`. If WIP is empty,
-   tell the user there is no active task.
+1. **Find the active task.** Read `## Work in Progress` in `plan/plan.md`.
+   If empty, report there is no active task.
 
-2. **Verify test evidence.** Apply verification-before-completion discipline:
-   - Check that "tested" is marked `[x]` in Progress
-   - If not tested, warn the user and ask if they want to proceed anyway
+2. **Verify completion prerequisites:**
+   - Read `plan/PIPELINE.md` and identify final stage ID (default: `completed`)
+   - Confirm all required pre-final stages in task Progress are `[x]`
+   - If testing stage exists and is unchecked, warn and ask whether to proceed
 
-3. **Write the task summary** in `task-{id}.md`. Add a `## Summary` section:
+3. **Write task summary** in `task-{id}.md` under `## Summary`:
+   - What was done
+   - Key decisions
+   - Files created/modified
+   - Dependencies added
 
-```markdown
-## Summary
-- **What was done:** {Brief description of what was built/changed}
-- **Key decisions:** {Any design decisions made during implementation}
-- **Files created:** {list of new files}
-- **Files modified:** {list of changed files}
-- **Dependencies added:** {any new packages or modules}
-```
+4. **Update `plan/reference.md`** with created/updated modules and reuse notes.
 
-4. **Update plan/reference.md.** Add a new entry under `## Modules` for each
-   module created or significantly modified:
+5. **Update `plan/plan.md`:**
+   - Mark this task `[x]` in `## Tasks`
+   - Clear `## Work in Progress`
 
-```markdown
-### Module: {path/to/module-or-file.ext} (Task {id})
-- **Purpose:** {what this module does}
-- **Key functions/classes:** {public API}
-- **Decisions:** {why it was built this way}
-- **Reuse:** {how other tasks can use this module}
-```
+6. **Mark final stage complete** in task Progress (`[x] completed` in default pipeline).
 
-   If the task modified an existing module, update that module's entry in
-   reference.md rather than creating a duplicate.
+7. **Report result:**
+   - Summary of completion
+   - reference.md changes
+   - Remaining task count
+   - Suggest `/pp-task` or `/pp-next`
 
-5. **Update plan/plan.md.** Change the task's checkbox from `- [ ]` to `- [x]`:
-   ```
-   - [x] {id}. {Task title}
-   ```
+## Notes
 
-6. **Check `[x] completed`** in the task's Progress section.
-
-7. **Clear Work in Progress** in `plan/plan.md`. Set the `## Work in Progress`
-   section to empty (remove the filename).
-
-8. **Suggest commit for this task.** Before final reporting:
-   - Show the changed file list for the task (for example via `git status --short`)
-   - Suggest staging and committing these task changes
-   - Offer a default commit message, for example:
-     `Task {id}: complete {task title}`
-
-9. **Report to the user:**
-   - Summary of what was completed
-   - What was added to reference.md
-   - How many tasks remain in plan.md
-   - Suggest `/pp-task` or `/pp-next` for the next task, or note if the project
-     is complete
-
-## Key Principles
-
-- reference.md entries must be concise and actionable (focus on reuse)
-- Plan files must stay self-contained after updates
-- The summary captures decisions for future context, not just what was done
+- Do not suggest or perform commit operations here.
+- If pipeline includes a commit stage, that is handled by `pp-commit`.

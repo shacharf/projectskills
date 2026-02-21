@@ -14,9 +14,4 @@
 {Filled by pp-interface. Function signatures, class interfaces, CLI schema, config schema.}
 
 ## Progress
-- [ ] task planned
-- [ ] interface designed
-- [ ] implemented
-- [ ] reviewed
-- [ ] tested
-- [ ] completed
+{Generated from plan/PIPELINE.md stage IDs by pp-task.}
