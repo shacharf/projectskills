@@ -66,6 +66,8 @@ These commands are intentionally independent from task planning and pipeline sta
   List future-reference TODO items from `plan/todo.md`.
 - `/pp-todo "text"`  
   Add a new TODO item to `plan/todo.md`.
+- `/pp-gen-reference`  
+  Generate or refresh `plan/reference.md` by scanning the repo.
 
 ## Internal Actions (Not Primary User Commands)
 

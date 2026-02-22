@@ -3,6 +3,7 @@
 * [skills/pp-commit/SKILL.md](skills/pp-commit/SKILL.md)
 * [skills/pp-done/SKILL.md](skills/pp-done/SKILL.md)
 * [skills/pp-help/SKILL.md](skills/pp-help/SKILL.md)
+* [skills/pp-gen-reference/SKILL.md](skills/pp-gen-reference/SKILL.md)
 * [skills/pp-implement/SKILL.md](skills/pp-implement/SKILL.md)
 * [skills/pp-init/SKILL.md](skills/pp-init/SKILL.md)
 * [skills/pp-init/assets/agents-template.md](skills/pp-init/assets/agents-template.md)

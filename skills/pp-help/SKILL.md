@@ -43,6 +43,7 @@ project-specific pipeline in `plan/PIPELINE.md`.
 | `/pp-pipeline` | Validate and summarize pipeline config |
 | `/pp-pipeline-edit` | Edit pipeline config (wizard), or use `summary` / `print` modes |
 | `/pp-todo` | Add/list future-reference TODO items in `plan/todo.md` (not pipeline-driven) |
+| `/pp-gen-reference` | Generate or refresh `plan/reference.md` by scanning the repo |
 | `/pp-next` | Orchestrator based on `PIPELINE.md` |
 | `/pp-next auto` | Auto-advance with per-stage gate rules |
 | `/pp-status` | Show project and active stage status |

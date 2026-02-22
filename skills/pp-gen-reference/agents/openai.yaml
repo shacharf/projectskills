@@ -1,0 +1,4 @@
+interface:
+  display_name: "PP Gen Reference"
+  short_description: "Generate plan/reference.md from the repo"
+  default_prompt: "Scan the repo and generate plan/reference.md with overview, architecture, entry points, and public interfaces."
