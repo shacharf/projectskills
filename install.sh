@@ -23,24 +23,7 @@ NC='\033[0m'
 
 PLATFORMS=(cursor claude codex)
 
-pp_skills=(
-    pp-help
-    pp-init
-    pp-todo
-    pp-status
-    pp-plan
-    pp-pipeline
-    pp-pipeline-edit
-    pp-task
-    pp-next
-    pp-stage-runner
-    pp-interface
-    pp-implement
-    pp-review
-    pp-test
-    pp-commit
-    pp-done
-)
+pp_skills=()
 
 # Platform capability matrix
 #   skills:   cursor, claude, codex
@@ -54,6 +37,23 @@ platform_home() {
 has_skills()   { return 0; }  # all platforms
 has_agents()   { [[ "$1" == "cursor" || "$1" == "claude" ]]; }
 has_rules()    { [[ "$1" == "cursor" ]]; }
+
+discover_pp_skills() {
+    local skills_root="${PP_DIR}/skills"
+    local skill_dir
+    pp_skills=()
+
+    while IFS= read -r skill_dir; do
+        if [ -f "${skill_dir}/SKILL.md" ]; then
+            pp_skills+=("$(basename "${skill_dir}")")
+        fi
+    done < <(find "${skills_root}" -mindepth 1 -maxdepth 1 -type d -name 'pp-*' | LC_ALL=C sort)
+
+    if [ "${#pp_skills[@]}" -eq 0 ]; then
+        echo -e "${RED}Error: No PP skills found under ${skills_root}${NC}"
+        exit 1
+    fi
+}
 
 install_pp() {
     local platform="$1"
@@ -103,6 +103,7 @@ install_pp() {
     echo "  /pp-init       Scaffold a new project"
     echo "  /pp-plan       Create or revise the project plan"
     echo "  /pp-todo       Add/list future-reference TODO items"
+    echo "  /pp-gen-reference  Generate/refresh plan reference"
     echo "  /pp-pipeline   Validate/summarize pipeline config"
     echo "  /pp-pipeline-edit  Edit pipeline (wizard/summary/print)"
     echo "  /pp-task       Plan the next task"
@@ -176,7 +177,7 @@ show_help() {
     echo "Platforms: cursor, claude, codex"
     echo ""
     echo "Capability support:"
-    echo "  Skills (16):    cursor, claude, codex"
+    echo "  Skills (${#pp_skills[@]}):    cursor, claude, codex"
     echo "  Subagent:       cursor, claude"
     echo "  Rules (.mdc):   cursor"
     echo ""
@@ -188,6 +189,8 @@ show_help() {
 }
 
 # --- Main ---
+
+discover_pp_skills
 
 if [[ $# -eq 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     show_help
