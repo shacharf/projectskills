@@ -2,6 +2,8 @@
 
 PP is a workflow system for planning and executing projects incrementally with a project-specific pipeline.
 
+**NOTE**: the prefix for skills is written as `/pp-help` are compatible with *cursor* and *claude-code*. use `$pp-help` in *codex*.
+
 ## Core Workflow
 
 Most projects should use only these commands:
@@ -16,6 +18,31 @@ Most projects should use only these commands:
    Run the next stage from the active pipeline.
 
 Use `/pp-next auto` to auto-advance and pause only at approval gates.
+
+## Default Pipeline Diagram
+
+The default pipeline moves left-to-right through the stages below. In step mode, each stage is proposed one at a time; in auto mode, behavior is controlled by `approval_gate` and `auto_behavior`.
+
+Stage explanations:
+- `task-planned` (`pp-task`): Selects the next task from `plan/plan.md` and creates a task file with pipeline-linked progress entries.
+- `interface-designed` (`pp-interface`): Defines/locks the public interface and acceptance criteria before implementation.
+- `implemented` (`pp-implement`): Implements the task according to the approved interface and updates progress.
+- `reviewed` (`pp-review`): Reviews implementation quality and requirement fit; default pipeline marks this stage as `auto: skip`.
+- `tested` (`pp-test`): Adds/runs minimal tests aligned with acceptance criteria.
+- `completed` (`pp-done`): Finalizes task state and updates plan artifacts to mark completion.
+
+```mermaid
+flowchart LR
+    A["task-planned<br/>/pp-task"] --> B["interface-designed<br/>/pp-interface"]
+    B --> C["implemented<br/>/pp-implement"]
+    C --> D["reviewed<br/>/pp-review"]
+    D --> E["tested<br/>/pp-test"]
+    E --> F["completed<br/>/pp-done"]
+```
+
+This diagram reflects the default initialization template; `plan/PIPELINE.md` remains the runtime source of truth.
+
+**NOTE**: it is possible to customize the pipeline to your project's workflow.
 
 ## Core Configuration
 
