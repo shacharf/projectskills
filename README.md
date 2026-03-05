@@ -8,13 +8,13 @@ PP is a workflow system for planning and executing projects incrementally with a
 
 Most projects should use only these commands:
 
-1. `/pp-help`  
+1. `/pp-help`
    Show workflow guidance.
-2. `/pp-init <language>`  
+2. `/pp-init <language>`
    Initialize or migrate PP files in `plan/`.
-3. `/pp-plan`  
+3. `/pp-plan`
    Create or revise the task plan.
-4. `/pp-next`  
+4. `/pp-next`
    Run the next stage from the active pipeline.
 
 Use `/pp-next auto` to auto-advance and pause only at approval gates.
@@ -44,13 +44,27 @@ This diagram reflects the default initialization template; `plan/PIPELINE.md` re
 
 **NOTE**: it is possible to customize the pipeline to your project's workflow.
 
+### Internals
+  - Project planning state (including next-task selection inputs) is primarily
+    tracked in `plan/plan.md`, with pipeline behavior defined in `plan/PIPELINE.md`
+    and per-task progress stored in task files.
+	- You can **clear the context** at any time.
+  - `plan/reference.md` contains a module index refreshed after task completion
+    and used during planning to reduce duplication.
+
+
+The state of the project plan, next task to execute etc. is stored in `plan/plan.md`.
+This means that the context can be cleared at any time.
+
+In addition, `reference.md` holds a list of module in the project that is update after a task is completed and is used during task planning to reduce code duplication.
+
 ## Core Configuration
 
 The most important project files are:
 
-- `plan/AGENTS.md`  
+- `plan/AGENTS.md`
   Coding and testing standards for this project.
-- `plan/PIPELINE.md`  
+- `plan/PIPELINE.md`
   Stage order and orchestration policy for `/pp-next`:
   - stage sequence
   - stage actions
@@ -131,3 +145,6 @@ To remove:
 - `rules/` - optional Cursor rule
 - `agents/` - helper subagent definitions
 - `install.sh` - installer/uninstaller
+
+# Notes
+* My experience is that this pipeline works well with *codex*, it did not work for me with *cursor*.
