@@ -27,5 +27,8 @@
 ## Interface Deltas (Manual)
 {Manual notes about externally visible interface/schema/config changes.}
 
+## Architecture Artifact Notes (Manual)
+{Manual notes about ADR, sequence, C4, and system-map changes tied to tasks.}
+
 ## Notes (Manual)
 {Manual notes preserved across catalog regeneration.}

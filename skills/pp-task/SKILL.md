@@ -31,7 +31,8 @@ planned architecture updates.
    - Relevant sequence docs (`sequences/*.md`)
    - ADR index/files (`adrs/*.md`)
    If missing, do not create/modify architecture files in this stage.
-   Record a planning blocker note and instruct the user to run `/pp-arch-catalog`.
+   Treat this as project setup drift. For new projects, instruct the user to rerun
+   `/pp-init`; for legacy imports, use `/pp-arch-catalog` once.
 
 6. **Build Progress checklist from pipeline stages:**
    - Use ordered `id` values from `plan/PIPELINE.md`
@@ -41,6 +42,10 @@ planned architecture updates.
 7. **Classify architecture impact** for this task:
    - `none`, `low`, `medium`, or `high`
    - If `low|medium|high`, identify affected architecture artifacts
+   - Apply these defaults:
+     - decision/tradeoff change -> ADR required
+     - workflow/interaction change -> sequence diagram required
+     - component/boundary change -> C4 and/or system-map update required
 
 8. **Create `plan/task-{id}.md`** using this structure:
 
@@ -77,9 +82,24 @@ planned architecture updates.
 - Level: {none|low|medium|high}
 - Summary: {What architectural boundaries/contracts are affected}
 
+## Required Architecture Artifacts
+- ADR: {required|not required} -- {why}
+- Sequence Diagram: {required|not required} -- {why}
+- C4 / System Map: {required|not required} -- {why}
+
+## ADR Plan
+- File: `docs/architecture/adrs/ADR-xxxx-title.md`
+- Decision scope: {what decision this task changes or introduces}
+
+## Sequence Plan
+- File: `docs/architecture/sequences/{workflow}.md`
+- Workflow scope: {what interaction flow this task changes or introduces}
+
 ## Planned Architecture Updates
 - `docs/architecture/system-map.yaml`: {planned change}
 - `docs/architecture/README.md`: {planned change}
+- `docs/architecture/adrs/...`: {planned change}
+- `docs/architecture/sequences/...`: {planned change}
 - `{other architecture file}`: {planned change}
 
 ## Files to Touch
@@ -119,6 +139,8 @@ planned architecture updates.
    - Task must include at least one concrete reuse candidate from catalog/docs, OR
    - A written explicit `No-reuse rationale` in `## Reuse Analysis`.
    - If neither exists, request revision and do not finalize.
+   - If ADR or Sequence Diagram is marked `required`, `## Subtasks` must include
+     concrete create/update entries for those files.
 
 12. **Set Work in Progress** in `plan/plan.md` to `task-{id}.md`.
 

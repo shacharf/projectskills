@@ -394,6 +394,7 @@ def build_reference(
     task_change_log: str,
     reuse_notes: str,
     interface_deltas: str,
+    architecture_artifact_notes: str,
     manual_notes: str,
 ) -> str:
     lines = []
@@ -446,6 +447,9 @@ def build_reference(
     lines.append("")
     lines.append("## Interface Deltas (Manual)")
     lines.append(interface_deltas or "")
+    lines.append("")
+    lines.append("## Architecture Artifact Notes (Manual)")
+    lines.append(architecture_artifact_notes or "")
     lines.append("")
     lines.append("## Notes (Manual)")
     lines.append(manual_notes or "")
@@ -635,6 +639,7 @@ def main() -> int:
     task_change_log = split_manual_section(existing_catalog, "## Task Change Log")
     reuse_notes = split_manual_section(existing_catalog, "## Reuse Notes (Manual)")
     interface_deltas = split_manual_section(existing_catalog, "## Interface Deltas (Manual)")
+    architecture_artifact_notes = split_manual_section(existing_catalog, "## Architecture Artifact Notes (Manual)")
     manual_notes = split_manual_section(existing_catalog, "## Notes (Manual)")
     if not manual_notes:
         manual_notes = split_manual_section(read_file(LEGACY_REFERENCE_PATH), "## Notes (Manual)")
@@ -650,6 +655,7 @@ def main() -> int:
         task_change_log=task_change_log,
         reuse_notes=reuse_notes,
         interface_deltas=interface_deltas,
+        architecture_artifact_notes=architecture_artifact_notes,
         manual_notes=manual_notes,
     )
 

@@ -32,6 +32,8 @@ and architecture updates.
    - Prefer established ecosystem libraries/packages where appropriate
    - Reuse existing project modules referenced in the task spec
    - If duplicated code is found, generalize into a shared utility
+   - If task subtasks include ADR or sequence diagram work, create/update those
+     files during this stage
 
 4. **Create/modify files** as specified in "Files to Touch":
    - New files: create with correct module/file structure for the language profile
@@ -42,6 +44,9 @@ and architecture updates.
    - Update architecture docs as related subtasks land (do not defer all updates)
    - Keep `docs/architecture/system-map.yaml` synchronized with implemented changes
    - Update referenced C4/sequence/ADR docs from planned updates
+   - For required architecture artifacts:
+     - ADR: create or update the file declared in `## ADR Plan`
+     - Sequence Diagram: create or update the file declared in `## Sequence Plan`
    - Before completing stage, run a final architecture consistency pass against code
 
 6. **Handle dependencies and config:**
@@ -54,6 +59,7 @@ and architecture updates.
    - List files created/modified
    - Summarize completed subtasks
    - Confirm reused modules/contracts from `## Reuse Plan`
+   - Confirm ADR and sequence files created/updated when required
    - Summarize architecture files updated
    - Note any deviations from reviewed design or open questions
    - Suggest `/pp-review` or `/pp-test` next (or `/pp-next`)

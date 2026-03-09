@@ -17,6 +17,7 @@ Create and run a minimal test for the current task.
 2. **Read context:**
    - `plan/task-{id}.md` -- acceptance criteria (this defines what to test)
    - `plan/language.md` -- test and validation defaults for selected language
+   - Required architecture artifact sections from the task (`Required Architecture Artifacts`, `ADR Plan`, `Sequence Plan`)
    - The implementation source files
 
 3. **Create ONE focused test** (or a small smoke script) that validates core
@@ -42,6 +43,9 @@ Create and run a minimal test for the current task.
    - Report actual output, not expected output
    - If failed, report failure with actionable details
    - Do NOT claim success without evidence
+   - If ADR or sequence artifacts are required for this task, also verify:
+     - the planned files exist
+     - they were updated consistently with the task scope
 
 7. **Check `[x] tested`** in task Progress (only if test/check passes).
 

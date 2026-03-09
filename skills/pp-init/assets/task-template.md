@@ -30,9 +30,24 @@
 - Level: {none|low|medium|high}
 - Summary: {What boundaries/contracts change.}
 
+## Required Architecture Artifacts
+- ADR: {required|not required} -- {why}
+- Sequence Diagram: {required|not required} -- {why}
+- C4 / System Map: {required|not required} -- {why}
+
+## ADR Plan
+- File: `docs/architecture/adrs/ADR-xxxx-title.md`
+- Decision scope: {what decision this task changes or introduces}
+
+## Sequence Plan
+- File: `docs/architecture/sequences/{workflow}.md`
+- Workflow scope: {what interaction flow this task changes or introduces}
+
 ## Planned Architecture Updates
 - `docs/architecture/system-map.yaml`: {planned update}
 - `docs/architecture/README.md`: {planned update}
+- `docs/architecture/adrs/...`: {planned update}
+- `docs/architecture/sequences/...`: {planned update}
 
 ## Files to Touch
 - Create: `path/to/new/file.ext`

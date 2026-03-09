@@ -28,6 +28,13 @@ Scaffold or migrate PP project management files.
    - `plan/AGENTS.md` from `assets/languages/{language}/agents-template.md`
    - `docs/architecture/README.md` from `assets/architecture/README-template.md`
    - `docs/architecture/system-map.yaml` from `assets/architecture/system-map-template.yaml`
+   - `docs/architecture/c4-context.md` from `assets/architecture/c4-context-template.md`
+   - `docs/architecture/c4-container.md` from `assets/architecture/c4-container-template.md`
+   - `docs/architecture/c4-components.md` from `assets/architecture/c4-components-template.md`
+   - `docs/architecture/sequences/README.md` from `assets/architecture/sequences-README-template.md`
+   - `docs/architecture/sequences/request-flow.md` from `assets/architecture/sequence-template.md`
+   - `docs/architecture/adrs/README.md` from `assets/architecture/adrs-README-template.md`
+   - `docs/architecture/adrs/ADR-0001-architecture-baseline.md` from `assets/architecture/ADR-0001-template.md`
    - `docs/catalog/architecture-code-catalog.md` from `assets/catalog-template.md`
 
 5. **Ensure pipeline config exists:**
@@ -75,6 +82,13 @@ Scaffold or migrate PP project management files.
 - `assets/pipeline-template.md`
 - `assets/architecture/README-template.md`
 - `assets/architecture/system-map-template.yaml`
+- `assets/architecture/c4-context-template.md`
+- `assets/architecture/c4-container-template.md`
+- `assets/architecture/c4-components-template.md`
+- `assets/architecture/sequences-README-template.md`
+- `assets/architecture/sequence-template.md`
+- `assets/architecture/adrs-README-template.md`
+- `assets/architecture/ADR-0001-template.md`
 
 ### Language templates (`assets/languages/{language}/`)
 - `agents-template.md`

@@ -22,7 +22,7 @@ project-specific pipeline in `plan/PIPELINE.md`.
 ### Quick Start
 
 1. `/pp-init <language>` -- scaffold or migrate project planning files
-2. `/pp-arch-catalog` -- **Optional** - create architecture documentation for an existing project.
+2. `/pp-arch-catalog` -- **Legacy only** - bootstrap architecture documentation for an existing project once.
 3. `/pp-plan` -- create or revise the task plan
 4. `/pp-next` -- run the next stage from the pipeline, repeat this stage until done.
 
@@ -32,7 +32,7 @@ project-specific pipeline in `plan/PIPELINE.md`.
 
 | Command | Purpose |
 |---------|---------|
-| `/pp-init <language>` | Scaffold/migrate `plan/` files including `PIPELINE.md` |
+| `/pp-init <language>` | Scaffold/migrate `plan/` files and the full architecture baseline |
 | `/pp-plan` | Create or revise project task list |
 | `/pp-task` | Plan next task, create full `task-{id}.md` spec (subtasks, drafts, architecture updates; no architecture bootstrap) |
 | `/pp-design-review` | Review and gate task spec before implementation |
@@ -44,7 +44,7 @@ project-specific pipeline in `plan/PIPELINE.md`.
 | `/pp-pipeline` | Validate and summarize pipeline config |
 | `/pp-pipeline-edit` | Edit pipeline config (wizard), or use `summary` / `print` modes |
 | `/pp-todo` | Add/list future-reference TODO items in `plan/todo.md` (not pipeline-driven) |
-| `/pp-arch-catalog` | Generate or refresh Architecture/Code Catalog and architecture docs |
+| `/pp-arch-catalog` | Bootstrap legacy repo architecture/catalog artifacts once |
 | `/pp-next` | Orchestrator based on `PIPELINE.md` |
 | `/pp-next auto` | Auto-advance with per-stage gate rules |
 | `/pp-status` | Show project and active stage status |

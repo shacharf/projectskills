@@ -16,9 +16,14 @@ PP is a workflow system for planning and executing projects incrementally with a
 - `plan/*` planning files
 - `docs/architecture/README.md`
 - `docs/architecture/system-map.yaml`
+- `docs/architecture/c4-context.md`
+- `docs/architecture/c4-container.md`
+- `docs/architecture/c4-components.md`
+- `docs/architecture/sequences/`
+- `docs/architecture/adrs/`
 - `docs/catalog/architecture-code-catalog.md`
 
-**Optional**: Create architecture docs for an existing project
+**Legacy only**: Bootstrap architecture docs for an existing project
 ```text
 /pp-arch-catalog
 ```
@@ -39,10 +44,10 @@ Architecture artifacts live under `docs/architecture/`.
 
 The default pipeline moves left-to-right through the stages below. In step mode, each stage is proposed one at a time; in auto mode, behavior is controlled by `approval_gate` and `auto_behavior`.
 
-- `task-planned` (`pp-task`): Creates complete `task-{id}.md` specs (subtasks, interface draft, data structures draft, planned architecture updates). It does not bootstrap missing architecture docs.
+- `task-planned` (`pp-task`): Creates complete `task-{id}.md` specs, including explicit ADR and sequence-diagram subtasks when architecture-impacting work requires them.
 - `design-reviewed` (`pp-design-review`): Hard gate to review and iterate task design before implementation.
-- `implemented` (`pp-implement`): Executes approved subtasks and keeps architecture docs synchronized.
-- `reviewed` (`pp-review`): Reviews implementation quality and requirement fit (default `auto: skip`).
+- `implemented` (`pp-implement`): Executes approved subtasks and creates/updates planned ADR, sequence, C4, and system-map artifacts.
+- `reviewed` (`pp-review`): Reviews implementation quality, requirement fit, and whether planned architecture artifacts are compatible and up to date (default `auto: skip`).
 - `tested` (`pp-test`): Adds/runs minimal tests aligned with acceptance criteria.
 - `completed` (`pp-done`): Finalizes task state and applies incremental catalog deltas (no full catalog recompute).
 

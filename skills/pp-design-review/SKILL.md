@@ -27,11 +27,13 @@ return required changes.
    - Interface draft is clear and implementable
    - Data structures draft is consistent with interface and constraints
    - Planned architecture updates are explicit and scoped
+   - Required ADR and sequence work is represented as explicit subtasks when applicable
    - Acceptance criteria are testable and map to planned work
 
 4. **Cross-check architecture consistency:**
    - Task interface/data changes align with `system-map.yaml`
    - Required C4/sequence/ADR updates are present in planned updates
+   - `Required Architecture Artifacts`, `ADR Plan`, and `Sequence Plan` are internally consistent
    - Missing artifacts are called out explicitly
 
 5. **Produce one of two outcomes:**

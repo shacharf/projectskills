@@ -19,6 +19,7 @@ skipped in auto mode.
    - `plan/task-{id}.md` -- acceptance criteria and approved interface
    - `plan/AGENTS.md` -- coding standards
    - `docs/catalog/architecture-code-catalog.md` -- existing patterns to check consistency against
+   - Architecture artifacts referenced by the task (`ADR Plan`, `Sequence Plan`, planned updates)
    - All source files created or modified by the implementation
 
 3. **Dispatch the code-reviewer.** Use the `requesting-code-review` skill to
@@ -29,6 +30,8 @@ skipped in auto mode.
    - **Coding standards:** Does it follow AGENTS.md conventions?
    - **Reuse:** Are there missed opportunities to reuse existing code?
      Prioritize gaps against the task's approved `## Reuse Plan`.
+   - **Architecture artifact completion:** Were required ADR and sequence files actually updated?
+   - **Architecture compatibility:** Are ADR, sequence, C4, and system-map changes consistent with the implementation?
    - **Edge cases:** Are inputs validated? Are errors handled?
    - **API clarity:** Are public APIs well-named and documented?
 
