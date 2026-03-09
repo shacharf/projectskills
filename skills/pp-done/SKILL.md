@@ -1,6 +1,6 @@
 ---
 name: pp-done
-description: Complete the current task. Update reference.md and plan.md. Mark task as done.
+description: Complete the current task. Update architecture/code catalog and plan.md. Mark task as done.
 disable-model-invocation: true
 ---
 
@@ -24,7 +24,23 @@ Complete the active task, commit final task artifacts, and close planning state.
    - Files created/modified
    - Dependencies added
 
-4. **Update `plan/reference.md`** with created/updated modules and reuse notes.
+4. **Update `docs/catalog/architecture-code-catalog.md` incrementally** (no full recompute):
+   - Do **not** run `pp-arch-catalog` in this stage.
+   - Read task inputs:
+     - `## Summary`
+     - `## Reuse Plan`
+     - `## Planned Architecture Updates`
+     - Files changed from `git status --short`
+   - Ensure these sections exist in the catalog (create if missing):
+     - `## Task Change Log`
+     - `## Reuse Notes (Manual)`
+     - `## Interface Deltas (Manual)`
+     - `## Notes (Manual)`
+   - Append/patch task-scoped delta entries:
+     - `Task Change Log`: one entry for task id/title + changed files
+     - `Reuse Notes (Manual)`: what modules/contracts were reused or extended
+     - `Interface Deltas (Manual)`: externally visible API/schema/config deltas
+   - Keep updates idempotent by replacing the entry for this task id if it already exists.
 
 5. **Update `plan/plan.md`:**
    - Mark this task `[x]` in `## Tasks`
@@ -42,7 +58,7 @@ Complete the active task, commit final task artifacts, and close planning state.
      - Ensure commit includes:
        - implementation changes
        - `plan/task-{id}.md` summary updates
-       - `plan/reference.md` updates
+       - `docs/catalog/architecture-code-catalog.md` updates
        - `plan/plan.md` task completion + WIP clear updates
      - If commit fails, report failure and keep status as `commit pending`
    - If user declines commit, continue with status `commit skipped by user`
@@ -50,7 +66,7 @@ Complete the active task, commit final task artifacts, and close planning state.
 9. **Report result:**
    - Summary of completion
    - Commit status (`committed`, `commit pending`, or `commit skipped by user`)
-   - reference.md changes
+   - architecture/code catalog changes
    - Remaining task count
    - Suggest `/pp-task` or `/pp-next`
 

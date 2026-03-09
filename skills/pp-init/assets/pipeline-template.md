@@ -13,10 +13,10 @@ on_error: pause
   approval_gate: true
   auto_behavior: run
 
-- id: interface-designed
-  label: Interface Designed
+- id: design-reviewed
+  label: Design Reviewed
   actions:
-    - skill: pp-interface
+    - skill: pp-design-review
   approval_gate: true
   auto_behavior: run
 

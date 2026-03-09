@@ -1,0 +1,4 @@
+interface:
+  display_name: "PP Arch Catalog"
+  short_description: "Generate architecture/code catalog and architecture docs"
+  default_prompt: "Scan the repo and generate the Architecture/Code Catalog plus architecture docs (C4 Mermaid, sequence Mermaid, ADR baseline, and system-map.yaml)."

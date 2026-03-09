@@ -24,9 +24,11 @@ Scaffold or migrate PP project management files.
 
 4. **Ensure base files exist** (create if missing):
    - `plan/plan.md` from `assets/plan-template.md`
-   - `plan/reference.md` from `assets/reference-template.md`
    - `plan/language.md` from `assets/languages/{language}/language-template.md`
    - `plan/AGENTS.md` from `assets/languages/{language}/agents-template.md`
+   - `docs/architecture/README.md` from `assets/architecture/README-template.md`
+   - `docs/architecture/system-map.yaml` from `assets/architecture/system-map-template.yaml`
+   - `docs/catalog/architecture-code-catalog.md` from `assets/catalog-template.md`
 
 5. **Ensure pipeline config exists:**
    - Create `plan/PIPELINE.md` from `assets/pipeline-template.md` if missing
@@ -47,7 +49,9 @@ Scaffold or migrate PP project management files.
    - Read stage IDs from `plan/PIPELINE.md`
    - For each `plan/task-*.md`, map legacy labels to stage IDs:
      - `task planned` -> `task-planned`
-     - `interface designed` -> `interface-designed`
+     - `interface designed` -> `design-reviewed`
+     - `interface-designed` -> `design-reviewed`
+     - `design review` -> `design-reviewed`
      - `implemented` -> `implemented`
      - `reviewed` -> `reviewed`
      - `tested` -> `tested`
@@ -66,9 +70,11 @@ Scaffold or migrate PP project management files.
 
 ### Generic templates (`skills/pp-init/assets/`)
 - `assets/plan-template.md`
-- `assets/reference-template.md`
+- `assets/catalog-template.md`
 - `assets/task-template.md`
 - `assets/pipeline-template.md`
+- `assets/architecture/README-template.md`
+- `assets/architecture/system-map-template.yaml`
 
 ### Language templates (`assets/languages/{language}/`)
 - `agents-template.md`

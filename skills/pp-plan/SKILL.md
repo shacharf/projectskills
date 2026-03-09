@@ -16,7 +16,8 @@ brainstorming or writing-plans skills.
 
 1. **Read existing files** if they exist:
    - `plan/plan.md` (existing plan, if revising)
-   - `plan/reference.md` (completed work, if any)
+   - `docs/catalog/architecture-code-catalog.md` (existing code/catalog context)
+   - `docs/architecture/README.md` and `docs/architecture/system-map.yaml` (if present)
    - Any project description or requirements the user provides
 
 2. **If this is a new plan** (plan.md has no tasks), ask the user:

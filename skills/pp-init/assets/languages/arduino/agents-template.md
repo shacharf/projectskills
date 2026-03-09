@@ -16,7 +16,7 @@
 
 ## Code Reuse
 - Prefer established Arduino libraries over hand-rolled protocol/device code
-- Check `plan/reference.md` before adding new modules
+- Check `docs/catalog/architecture-code-catalog.md` before adding new modules
 - Consolidate repeated hardware or parsing logic into shared helpers
 
 ## Error Handling

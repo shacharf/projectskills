@@ -13,10 +13,11 @@ When a `plan/` directory exists in the project root, this project uses the PP
 
 - `plan/plan.md` -- ordered task list with `[x]`/`[ ]` checkboxes
 - `plan/PIPELINE.md` -- project-specific stage pipeline for orchestration
-- `plan/reference.md` -- accumulated knowledge from completed tasks
 - `plan/language.md` -- language/toolchain profile for this project
 - `plan/task-{id}.md` -- per-task plan with stage Progress checklist
 - `plan/AGENTS.md` -- coding standards for this project
+- `docs/catalog/architecture-code-catalog.md` -- generated catalog of code interfaces and architecture context
+- `docs/architecture/` -- architecture artifacts (C4, sequences, ADRs, system map)
 
 ## Methodology
 
@@ -24,7 +25,7 @@ When a `plan/` directory exists in the project root, this project uses the PP
 - **Interface-first**: design the public API before implementation
 - **Human-gated**: approval gates are defined per stage in `plan/PIPELINE.md`
 - **Incremental**: small tasks, each fully documented before moving on
-- **Reuse**: check reference.md for existing modules before writing new code
+- **Reuse**: `pp-task` is responsible for reuse analysis and reuse plan before implementation
 - **Generalize**: if duplicated code appears, refactor into shared utility
 - **Self-contained docs**: anyone reading plan files can continue without extra context
 

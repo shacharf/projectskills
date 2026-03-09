@@ -6,34 +6,53 @@ disable-model-invocation: true
 
 # PP Task
 
-Select the next incomplete task from plan.md and create a detailed task plan.
+Select the next incomplete task from plan.md and create a decision-complete task
+spec that includes subtasks, interface draft, data structures draft, and
+planned architecture updates.
 
 ## Instructions
 
 1. **Read `plan/plan.md`.** Find the first `- [ ]` task entry. Extract ID and title.
 
 2. **Read project context:**
-   - `plan/reference.md`
+   - `docs/catalog/architecture-code-catalog.md`
    - `plan/language.md`
    - `plan/AGENTS.md`
    - `plan/PIPELINE.md` (required for Progress stage IDs)
 
 3. **Check for existing task files.** If `plan/task-{id}.md` exists, ask whether to re-plan.
 
-4. **Read relevant code** based on task description and reference.md.
+4. **Read relevant code** based on task description and the Architecture/Code Catalog.
 
-5. **Build Progress checklist from pipeline stages:**
+5. **Read architecture context** from `docs/architecture/` when available:
+   - `docs/architecture/README.md`
+   - `docs/architecture/system-map.yaml`
+   - Relevant C4 files (`c4-*.md`)
+   - Relevant sequence docs (`sequences/*.md`)
+   - ADR index/files (`adrs/*.md`)
+   If missing, do not create/modify architecture files in this stage.
+   Record a planning blocker note and instruct the user to run `/pp-arch-catalog`.
+
+6. **Build Progress checklist from pipeline stages:**
    - Use ordered `id` values from `plan/PIPELINE.md`
    - Mark only the first stage (`task-planned` in default pipeline) as `[x]`
    - Mark all later stages as `[ ]`
 
-6. **Create `plan/task-{id}.md`** using this structure:
+7. **Classify architecture impact** for this task:
+   - `none`, `low`, `medium`, or `high`
+   - If `low|medium|high`, identify affected architecture artifacts
+
+8. **Create `plan/task-{id}.md`** using this structure:
 
 ```markdown
 # Task {id}: {Title}
 
 ## Objective
 {Clear statement of what this task accomplishes. 2-3 sentences.}
+
+## Subtasks
+- [ ] {Subtask 1}
+- [ ] {Subtask 2}
 
 ## Acceptance Criteria
 - {Specific, testable criterion}
@@ -42,13 +61,41 @@ Select the next incomplete task from plan.md and create a detailed task plan.
 ## Dependencies
 - {Prior tasks/modules this depends on}
 
+## Reuse Analysis
+- Catalog references: `{docs/catalog/architecture-code-catalog.md#section}`
+- Architecture references: `{docs/architecture/...}`
+- Reuse candidates:
+  - `{module-or-contract}`: {reuse/extend reason}
+- No-reuse rationale: {Required if no reuse candidates are selected}
+
+## Reuse Plan
+- Reuse `{existing module}` for {purpose}
+- Extend `{existing contract}` in {file}
+- Do not create new module for {behavior} unless rationale is documented above
+
+## Architecture Impact
+- Level: {none|low|medium|high}
+- Summary: {What architectural boundaries/contracts are affected}
+
+## Planned Architecture Updates
+- `docs/architecture/system-map.yaml`: {planned change}
+- `docs/architecture/README.md`: {planned change}
+- `{other architecture file}`: {planned change}
+
 ## Files to Touch
 - Create: `path/to/new/file.ext`
 - Modify: `path/to/existing/file.ext`
 - Test: `path/to/test-or-check.ext`
+- Architecture: `docs/architecture/...`
 
-## Interface
-{Filled by pp-interface.}
+## Interface Draft
+{Public API draft for review by pp-design-review.}
+
+## Data Structures Draft
+{Schema/type/model draft for review by pp-design-review.}
+
+## Design Review Notes
+{Filled by pp-design-review.}
 
 ## Progress
 - [x] {first-stage-id}
@@ -56,15 +103,34 @@ Select the next incomplete task from plan.md and create a detailed task plan.
 - [ ] ...
 ```
 
-7. **Present the task plan** for approval.
+9. **Update planning-level architecture artifacts** for this task:
+   - Only if architecture files already exist.
+   - Add/update task entry in `docs/architecture/README.md` planned changes.
+   - Add/update `planned_changes` item in `docs/architecture/system-map.yaml`:
+     - `task_id`
+     - `title`
+     - `status: proposed`
+     - `artifacts: [ ... ]`
+   - Do not bootstrap missing C4/sequence/ADR files from `pp-task`.
 
-8. **Set Work in Progress** in `plan/plan.md` to `task-{id}.md`.
+10. **Present the task spec** for approval.
 
-9. **After approval**, suggest `/pp-next` (or direct stage skill).
+11. **Enforce reuse decision completeness** before finalizing task planning:
+   - Task must include at least one concrete reuse candidate from catalog/docs, OR
+   - A written explicit `No-reuse rationale` in `## Reuse Analysis`.
+   - If neither exists, request revision and do not finalize.
+
+12. **Set Work in Progress** in `plan/plan.md` to `task-{id}.md`.
+
+13. **After approval**, suggest `/pp-design-review` or `/pp-next`.
 
 ## Key Principles
 
 - Task file progress must match pipeline stage IDs exactly
+- `task-{id}.md` is the single source of truth for planning
+- `pp-task` is the reuse decision authority for the task
+- Task specs must be implementation-ready before code changes start
 - Acceptance criteria must be testable
-- Always check reference.md for reuse opportunities
+- Always check catalog + architecture docs for reuse opportunities
 - Keep task scope focused and self-contained
+- Architecture drift is handled as a soft warning at planning time

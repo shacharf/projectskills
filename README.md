@@ -2,61 +2,60 @@
 
 PP is a workflow system for planning and executing projects incrementally with a project-specific pipeline.
 
-**NOTE**: the prefix for skills is written as `/pp-help` are compatible with *cursor* and *claude-code*. use `$pp-help` in *codex*.
+**NOTE**: Use `/pp-help` in *cursor* and *claude-code*; use `$pp-help` in *codex*.
 
-## Core Workflow
+## Quickstart
+
+### Setup
+
+```text
+/pp-init <language>
+```
+
+`/pp-init` scaffolds:
+- `plan/*` planning files
+- `docs/architecture/README.md`
+- `docs/architecture/system-map.yaml`
+- `docs/catalog/architecture-code-catalog.md`
+
+**Optional**: Create architecture docs for an existing project
+```text
+/pp-arch-catalog
+```
+
+### Core Workflow
 
 Most projects should use only these commands:
 
-1. `/pp-help`
-   Show workflow guidance.
-2. `/pp-init <language>`
-   Initialize or migrate PP files in `plan/`.
-3. `/pp-plan`
-   Create or revise the task plan.
-4. `/pp-next`
-   Run the next stage from the active pipeline.
+1. `/pp-plan` -- create or revise the project task list.
+2. `/pp-next` -- run the next stage from the active pipeline.
 
 Use `/pp-next auto` to auto-advance and pause only at approval gates.
 
-## Default Pipeline Diagram
+Project state is tracked in `plan/plan.md`, with stage policy in `plan/PIPELINE.md`.
+Architecture artifacts live under `docs/architecture/`.
+
+## Default Pipeline
 
 The default pipeline moves left-to-right through the stages below. In step mode, each stage is proposed one at a time; in auto mode, behavior is controlled by `approval_gate` and `auto_behavior`.
 
-Stage explanations:
-- `task-planned` (`pp-task`): Selects the next task from `plan/plan.md` and creates a task file with pipeline-linked progress entries.
-- `interface-designed` (`pp-interface`): Defines/locks the public interface and acceptance criteria before implementation.
-- `implemented` (`pp-implement`): Implements the task according to the approved interface and updates progress.
-- `reviewed` (`pp-review`): Reviews implementation quality and requirement fit; default pipeline marks this stage as `auto: skip`.
+- `task-planned` (`pp-task`): Creates complete `task-{id}.md` specs (subtasks, interface draft, data structures draft, planned architecture updates). It does not bootstrap missing architecture docs.
+- `design-reviewed` (`pp-design-review`): Hard gate to review and iterate task design before implementation.
+- `implemented` (`pp-implement`): Executes approved subtasks and keeps architecture docs synchronized.
+- `reviewed` (`pp-review`): Reviews implementation quality and requirement fit (default `auto: skip`).
 - `tested` (`pp-test`): Adds/runs minimal tests aligned with acceptance criteria.
-- `completed` (`pp-done`): Finalizes task state and updates plan artifacts to mark completion.
+- `completed` (`pp-done`): Finalizes task state and applies incremental catalog deltas (no full catalog recompute).
 
 ```mermaid
 flowchart LR
-    A["task-planned<br/>/pp-task"] --> B["interface-designed<br/>/pp-interface"]
+    A["task-planned<br/>/pp-task"] --> B["design-reviewed<br/>/pp-design-review"]
     B --> C["implemented<br/>/pp-implement"]
     C --> D["reviewed<br/>/pp-review"]
     D --> E["tested<br/>/pp-test"]
     E --> F["completed<br/>/pp-done"]
 ```
 
-This diagram reflects the default initialization template; `plan/PIPELINE.md` remains the runtime source of truth.
-
-**NOTE**: it is possible to customize the pipeline to your project's workflow.
-
-### Internals
-  - Project planning state (including next-task selection inputs) is primarily
-    tracked in `plan/plan.md`, with pipeline behavior defined in `plan/PIPELINE.md`
-    and per-task progress stored in task files.
-	- You can **clear the context** at any time.
-  - `plan/reference.md` contains a module index refreshed after task completion
-    and used during planning to reduce duplication.
-
-
-The state of the project plan, next task to execute etc. is stored in `plan/plan.md`.
-This means that the context can be cleared at any time.
-
-In addition, `reference.md` holds a list of module in the project that is update after a task is completed and is used during task planning to reduce code duplication.
+`plan/PIPELINE.md` is the runtime source of truth and can be customized.
 
 ## Core Configuration
 
@@ -71,27 +70,19 @@ The most important project files are:
   - approval gates
   - auto-skip behavior
 
-## Quick Start
-
-```text
-/pp-init python
-/pp-plan
-/pp-next
-```
-
 ## Pipeline Commands Reference
 
 These are user-facing runtime commands for pipeline control and visibility:
 
-- `/pp-next`  
+- `/pp-next`
   Execute the next stage in step mode (`yes`, `skip`, `replan`, `auto`, `stop`).
-- `/pp-next auto`  
+- `/pp-next auto`
   Execute automatically based on per-stage gate and auto behavior rules.
-- `/pp-status`  
+- `/pp-status`
   Show current task/stage state and next action.
-- `/pp-pipeline`  
+- `/pp-pipeline`
   Validate and summarize `plan/PIPELINE.md`.
-- `/pp-pipeline-edit`  
+- `/pp-pipeline-edit`
   Edit `plan/PIPELINE.md` (wizard), or use `summary` / `print`.
 
 `/pp-pipeline-edit` notes:
@@ -103,19 +94,19 @@ These are user-facing runtime commands for pipeline control and visibility:
 
 These commands are intentionally independent from task planning and pipeline stages:
 
-- `/pp-todo`  
+- `/pp-todo`
   List future-reference TODO items from `plan/todo.md`.
-- `/pp-todo "text"`  
+- `/pp-todo "text"`
   Add a new TODO item to `plan/todo.md`.
-- `/pp-gen-reference`  
-  Generate or refresh `plan/reference.md` by scanning the repo.
+- `/pp-arch-catalog`
+  Generate or refresh the Architecture/Code Catalog and architecture docs.
 
 ## Internal Actions (Not Primary User Commands)
 
 These skills are orchestration internals and are usually invoked through `/pp-next`:
 
 - `/pp-task`
-- `/pp-interface`
+- `/pp-design-review`
 - `/pp-implement`
 - `/pp-review`
 - `/pp-test`

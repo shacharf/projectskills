@@ -40,7 +40,7 @@ Otherwise, treat the full argument as TODO text to append.
    - `plan/plan.md`
    - `plan/PIPELINE.md`
    - `plan/task-*.md`
-   - `plan/reference.md`
+   - `docs/catalog/architecture-code-catalog.md`
 
 ## Output Style
 

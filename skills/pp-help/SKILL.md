@@ -22,8 +22,9 @@ project-specific pipeline in `plan/PIPELINE.md`.
 ### Quick Start
 
 1. `/pp-init <language>` -- scaffold or migrate project planning files
-2. `/pp-plan` -- create or revise the task plan
-3. `/pp-next` -- run the next stage from the pipeline
+2. `/pp-arch-catalog` -- **Optional** - create architecture documentation for an existing project.
+3. `/pp-plan` -- create or revise the task plan
+4. `/pp-next` -- run the next stage from the pipeline, repeat this stage until done.
 
 `<language>` supports: `python`, `arduino` (`py` alias supported).
 
@@ -33,17 +34,17 @@ project-specific pipeline in `plan/PIPELINE.md`.
 |---------|---------|
 | `/pp-init <language>` | Scaffold/migrate `plan/` files including `PIPELINE.md` |
 | `/pp-plan` | Create or revise project task list |
-| `/pp-task` | Plan next task, create `task-{id}.md` |
-| `/pp-interface` | Design public interface for active task |
+| `/pp-task` | Plan next task, create full `task-{id}.md` spec (subtasks, drafts, architecture updates; no architecture bootstrap) |
+| `/pp-design-review` | Review and gate task spec before implementation |
 | `/pp-implement` | Implement active task |
 | `/pp-review` | Review implementation |
 | `/pp-test` | Create and run minimal verification |
 | `/pp-commit` | Suggest and track task commit step |
-| `/pp-done` | Finalize task docs and mark task done |
+| `/pp-done` | Finalize task docs, patch catalog deltas, and mark task done |
 | `/pp-pipeline` | Validate and summarize pipeline config |
 | `/pp-pipeline-edit` | Edit pipeline config (wizard), or use `summary` / `print` modes |
 | `/pp-todo` | Add/list future-reference TODO items in `plan/todo.md` (not pipeline-driven) |
-| `/pp-gen-reference` | Generate or refresh `plan/reference.md` by scanning the repo |
+| `/pp-arch-catalog` | Generate or refresh Architecture/Code Catalog and architecture docs |
 | `/pp-next` | Orchestrator based on `PIPELINE.md` |
 | `/pp-next auto` | Auto-advance with per-stage gate rules |
 | `/pp-status` | Show project and active stage status |
@@ -54,7 +55,7 @@ project-specific pipeline in `plan/PIPELINE.md`.
 `/pp-next` uses ordered stages in `plan/PIPELINE.md`.
 Default pipeline:
 
-`task-planned -> interface-designed -> implemented -> reviewed -> tested -> completed`
+`task-planned -> design-reviewed -> implemented -> reviewed -> tested -> completed`
 
 Projects can customize stage order, approval gates, and auto-skip behavior in
 `plan/PIPELINE.md`.
@@ -91,9 +92,10 @@ Approval is per stage via `approval_gate: true|false` in `plan/PIPELINE.md`.
 
 - `plan/plan.md` -- task list and active task pointer
 - `plan/PIPELINE.md` -- ordered stage config (source of truth for workflow)
-- `plan/reference.md` -- accumulated project knowledge
 - `plan/language.md` -- language/toolchain profile
 - `plan/task-{id}.md` -- task plan and stage progress
 - `plan/AGENTS.md` -- coding standards
+- `docs/catalog/architecture-code-catalog.md` -- generated architecture/code catalog
+- `docs/architecture/` -- architecture artifacts and planned updates
 
 ---

@@ -17,7 +17,7 @@
 
 ## Code Reuse
 - Before writing new code, prefer established Python packages where appropriate
-- Check `plan/reference.md` for existing modules before introducing new ones
+- Check `docs/catalog/architecture-code-catalog.md` for existing modules before introducing new ones
 - Generalize duplicated patterns into shared utilities
 
 ## Error Handling
