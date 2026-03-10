@@ -104,7 +104,7 @@ These commands are intentionally independent from task planning and pipeline sta
 - `/pp-todo "text"`
   Add a new TODO item to `plan/todo.md`.
 - `/pp-arch-catalog`
-  Generate or refresh the Architecture/Code Catalog and architecture docs.
+  Bootstrap the Architecture/Code Catalog and architecture baseline once for a legacy repo.
 
 ## Internal Actions (Not Primary User Commands)
 

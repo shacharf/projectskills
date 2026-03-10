@@ -36,12 +36,16 @@
 - C4 / System Map: {required|not required} -- {why}
 
 ## ADR Plan
+- Action: {update existing | create new}
 - File: `docs/architecture/adrs/ADR-xxxx-title.md`
 - Decision scope: {what decision this task changes or introduces}
+- Index update: {required|not required} -- `docs/architecture/adrs/README.md`
 
 ## Sequence Plan
-- File: `docs/architecture/sequences/{workflow}.md`
+- Action: {update existing | create new}
+- File: `docs/architecture/sequences/{workflow-slug}.md`
 - Workflow scope: {what interaction flow this task changes or introduces}
+- Index update: {required|not required} -- `docs/architecture/sequences/README.md`
 
 ## Planned Architecture Updates
 - `docs/architecture/system-map.yaml`: {planned update}

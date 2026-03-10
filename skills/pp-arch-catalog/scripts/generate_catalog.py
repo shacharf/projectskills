@@ -539,19 +539,27 @@ def architecture_readme_md(project_name: str) -> str:
 ## Overview
 This directory contains architecture artifacts and the generated code catalog for **{project_name}**.
 
+## Update Policy
+- This baseline may be created once by `pp-init` or `pp-arch-catalog`.
+- After bootstrap/init, `pp-implement` owns ongoing updates to `docs/architecture/*`.
+
 ## Artifact Index
 - `system-map.yaml`
 - `c4-context.md`
 - `c4-container.md`
 - `c4-components.md`
+- `sequences/README.md`
 - `sequences/request-flow.md`
+- `adrs/README.md`
 - `adrs/`
 
-## Diagram Index
-- C4 Context: `c4-context.md`
-- C4 Container: `c4-container.md`
-- C4 Components: `c4-components.md`
-- Sequence: `sequences/request-flow.md`
+## Artifact Rules
+- Update `c4-context.md` when external actors or system boundaries change.
+- Update `c4-container.md` when service/module/container boundaries change.
+- Update `c4-components.md` when internal component relationships change.
+- Update `system-map.yaml` when structural topology or component relationships change.
+- ADR files use sequential names: `ADR-0001-title.md`, `ADR-0002-title.md`, ...
+- Sequence files use stable workflow slugs under `sequences/`.
 """
 
 
@@ -570,7 +578,34 @@ components:
 {c_lines}
 relationships:
 {rel}
-planned_changes: []
+"""
+
+
+def sequence_index_md() -> str:
+    return """# Sequence Diagrams
+
+- Sequence files use stable workflow-slug names such as `user-login.md`.
+- Update an existing workflow file when the same workflow evolves.
+- Create a new workflow file only when the task introduces a distinct interaction flow.
+
+## Entries
+
+- `request-flow.md` -- starter workflow sequence
+"""
+
+
+def adr_index_md(adr_files: List[str]) -> str:
+    files = sorted([name for name in adr_files if name.lower() != "readme.md"])
+    entries = "\n".join([f"- `{name}`" for name in files]) or "- `ADR-0001-architecture-catalog-baseline.md`"
+    return f"""# ADR Index
+
+- ADR files use sequential IDs: `ADR-0001-title.md`, `ADR-0002-title.md`, ...
+- Update an existing ADR when the same decision is being refined.
+- Create a new ADR when the task introduces a materially new architectural decision.
+
+## Entries
+
+{entries}
 """
 
 
@@ -587,11 +622,13 @@ def write_architecture_docs(
     write_file(os.path.join(ARCH_DIR, "c4-container.md"), c4_container_md(project_name, entrypoints, comps))
     write_file(os.path.join(ARCH_DIR, "c4-components.md"), c4_components_md(interfaces))
     write_file(os.path.join(SEQUENCES_DIR, "request-flow.md"), sequence_md(project_name, entrypoints))
+    write_file(os.path.join(SEQUENCES_DIR, "README.md"), sequence_index_md())
     write_file(SYSTEM_MAP_PATH, system_map_yaml(project_name, comps, entrypoints))
 
     os.makedirs(ADRS_DIR, exist_ok=True)
     adr_files = [n for n in os.listdir(ADRS_DIR) if n.lower().endswith(".md")]
-    if not adr_files:
+    actual_adr_files = [name for name in adr_files if name.lower() != "readme.md"]
+    if not actual_adr_files:
         write_file(
             os.path.join(ADRS_DIR, "ADR-0001-architecture-catalog-baseline.md"),
             """# ADR-0001: Architecture/Code Catalog Baseline
@@ -611,6 +648,8 @@ Adopt generated architecture artifacts under `docs/architecture/` and maintain
 - Requires keeping docs synchronized with implementation.
 """,
         )
+        adr_files = [n for n in os.listdir(ADRS_DIR) if n.lower().endswith(".md")]
+    write_file(os.path.join(ADRS_DIR, "README.md"), adr_index_md(adr_files))
 
 
 def main() -> int:
@@ -667,7 +706,9 @@ def main() -> int:
     print(f"Updated {os.path.join(ARCH_DIR, 'c4-context.md')}")
     print(f"Updated {os.path.join(ARCH_DIR, 'c4-container.md')}")
     print(f"Updated {os.path.join(ARCH_DIR, 'c4-components.md')}")
+    print(f"Updated {os.path.join(SEQUENCES_DIR, 'README.md')}")
     print(f"Updated {os.path.join(SEQUENCES_DIR, 'request-flow.md')}")
+    print(f"Updated {os.path.join(ADRS_DIR, 'README.md')}")
     print(f"Updated {SYSTEM_MAP_PATH}")
     return 0
 

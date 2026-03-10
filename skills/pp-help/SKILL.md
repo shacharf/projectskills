@@ -36,7 +36,7 @@ project-specific pipeline in `plan/PIPELINE.md`.
 | `/pp-plan` | Create or revise project task list |
 | `/pp-task` | Plan next task, create full `task-{id}.md` spec (subtasks, drafts, architecture updates; no architecture bootstrap) |
 | `/pp-design-review` | Review and gate task spec before implementation |
-| `/pp-implement` | Implement active task |
+| `/pp-implement` | Implement active task and own ongoing architecture doc updates |
 | `/pp-review` | Review implementation |
 | `/pp-test` | Create and run minimal verification |
 | `/pp-commit` | Suggest and track task commit step |

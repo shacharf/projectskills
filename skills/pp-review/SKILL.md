@@ -22,8 +22,7 @@ skipped in auto mode.
    - Architecture artifacts referenced by the task (`ADR Plan`, `Sequence Plan`, planned updates)
    - All source files created or modified by the implementation
 
-3. **Dispatch the code-reviewer.** Use the `requesting-code-review` skill to
-   dispatch the built-in code-reviewer subagent. The review should check:
+3. **Perform the review directly in this stage.** The review should check:
 
    - **Correctness:** Does the implementation satisfy all acceptance criteria?
    - **Interface compliance:** Does the code match the approved interface?
@@ -32,6 +31,9 @@ skipped in auto mode.
      Prioritize gaps against the task's approved `## Reuse Plan`.
    - **Architecture artifact completion:** Were required ADR and sequence files actually updated?
    - **Architecture compatibility:** Are ADR, sequence, C4, and system-map changes consistent with the implementation?
+   - **Architecture ownership:** Were architecture mutations made through normal implementation work, not delegated to `pp-arch-catalog`?
+   - **Artifact indexing:** If new ADR or sequence files were created, were the matching index files updated?
+   - **C4 targeting:** Was the correct C4 file updated for the type of change?
    - **Edge cases:** Are inputs validated? Are errors handled?
    - **API clarity:** Are public APIs well-named and documented?
 

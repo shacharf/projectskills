@@ -103,7 +103,7 @@ install_pp() {
     echo "  /pp-init       Scaffold a new project"
     echo "  /pp-plan       Create or revise the project plan"
     echo "  /pp-todo       Add/list future-reference TODO items"
-    echo "  /pp-arch-catalog  Generate architecture/code catalog and docs"
+    echo "  /pp-arch-catalog  Bootstrap legacy architecture/catalog baseline once"
     echo "  /pp-pipeline   Validate/summarize pipeline config"
     echo "  /pp-pipeline-edit  Edit pipeline (wizard/summary/print)"
     echo "  /pp-task       Plan the next task"

@@ -43,9 +43,12 @@ Create and run a minimal test for the current task.
    - Report actual output, not expected output
    - If failed, report failure with actionable details
    - Do NOT claim success without evidence
-   - If ADR or sequence artifacts are required for this task, also verify:
+   - If architecture artifacts are required for this task, also verify:
      - the planned files exist
      - they were updated consistently with the task scope
+     - new ADR files are listed in `docs/architecture/adrs/README.md`
+     - new sequence files are listed in `docs/architecture/sequences/README.md`
+     - required C4/system-map files changed when the task planned them
 
 7. **Check `[x] tested`** in task Progress (only if test/check passes).
 

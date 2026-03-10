@@ -24,7 +24,7 @@ architecture-doc baseline.
    - `docs/architecture/*` (reuse existing artifacts when available)
    - `README*` and language manifests (`pyproject.toml`, `setup.cfg`, `setup.py`) when available
 
-4. **Run the generator script.** Use:
+4. **Run the generator script once to create a baseline.** Use:
 
 ```bash
 python3 skills/pp-arch-catalog/scripts/generate_catalog.py
@@ -34,6 +34,7 @@ python3 skills/pp-arch-catalog/scripts/generate_catalog.py
    - `docs/catalog/architecture-code-catalog.md` updated as Architecture/Code Catalog
    - `docs/architecture/README.md` updated
    - C4 docs, sequence diagram docs, ADR baseline, and `system-map.yaml` updated/generated
+   - Remind the user that `pp-implement` owns ongoing architecture updates after this bootstrap
    - Any limitations or missing signals found during extraction
 
 ## Output Contract
@@ -58,9 +59,14 @@ The generator must produce/update:
 - `c4-context.md` (Mermaid in markdown)
 - `c4-container.md` (Mermaid in markdown)
 - `c4-components.md` (Mermaid in markdown)
+- `sequences/README.md`
 - `sequences/request-flow.md` (Mermaid `sequenceDiagram`)
+- `adrs/README.md`
 - `adrs/ADR-0001-architecture-catalog-baseline.md` (if no ADR exists)
 - `system-map.yaml`
+
+These outputs establish the initial architecture baseline only. After bootstrap,
+`pp-implement` becomes the normal owner of `docs/architecture/*`.
 
 ## Extraction Rules
 

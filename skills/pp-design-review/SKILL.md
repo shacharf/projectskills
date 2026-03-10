@@ -28,11 +28,18 @@ return required changes.
    - Data structures draft is consistent with interface and constraints
    - Planned architecture updates are explicit and scoped
    - Required ADR and sequence work is represented as explicit subtasks when applicable
+   - ADR plans use a concrete sequential file target or an existing ADR file
+   - Sequence plans use a stable workflow-slug file name, not a task-specific name
    - Acceptance criteria are testable and map to planned work
 
 4. **Cross-check architecture consistency:**
    - Task interface/data changes align with `system-map.yaml`
    - Required C4/sequence/ADR updates are present in planned updates
+   - C4 file selection matches the change type:
+     - external boundary -> `c4-context.md`
+     - container/module boundary -> `c4-container.md`
+     - internal component relationship -> `c4-components.md`
+     - topology relationship -> `system-map.yaml`
    - `Required Architecture Artifacts`, `ADR Plan`, and `Sequence Plan` are internally consistent
    - Missing artifacts are called out explicitly
 

@@ -45,7 +45,10 @@ planned architecture updates.
    - Apply these defaults:
      - decision/tradeoff change -> ADR required
      - workflow/interaction change -> sequence diagram required
-     - component/boundary change -> C4 and/or system-map update required
+     - external actor/system boundary change -> `c4-context.md`
+     - service/module/container boundary change -> `c4-container.md`
+     - internal component relationship change -> `c4-components.md`
+     - structural topology/component relationship change -> `system-map.yaml`
 
 8. **Create `plan/task-{id}.md`** using this structure:
 
@@ -88,12 +91,16 @@ planned architecture updates.
 - C4 / System Map: {required|not required} -- {why}
 
 ## ADR Plan
+- Action: {update existing | create new}
 - File: `docs/architecture/adrs/ADR-xxxx-title.md`
 - Decision scope: {what decision this task changes or introduces}
+- Index update: {required|not required} -- `docs/architecture/adrs/README.md`
 
 ## Sequence Plan
-- File: `docs/architecture/sequences/{workflow}.md`
+- Action: {update existing | create new}
+- File: `docs/architecture/sequences/{workflow-slug}.md`
 - Workflow scope: {what interaction flow this task changes or introduces}
+- Index update: {required|not required} -- `docs/architecture/sequences/README.md`
 
 ## Planned Architecture Updates
 - `docs/architecture/system-map.yaml`: {planned change}
@@ -123,14 +130,16 @@ planned architecture updates.
 - [ ] ...
 ```
 
-9. **Update planning-level architecture artifacts** for this task:
-   - Only if architecture files already exist.
-   - Add/update task entry in `docs/architecture/README.md` planned changes.
-   - Add/update `planned_changes` item in `docs/architecture/system-map.yaml`:
-     - `task_id`
-     - `title`
-     - `status: proposed`
-     - `artifacts: [ ... ]`
+9. **Plan architecture ownership clearly** for this task:
+   - `pp-task` must not edit `docs/architecture/*`.
+   - `pp-implement` is the canonical owner of architecture artifact mutations.
+   - For ADRs:
+     - Prefer updating an existing ADR when the decision identity is unchanged.
+     - Otherwise plan a new sequential file: `ADR-0001-title.md`, `ADR-0002-title.md`, ...
+   - For sequences:
+     - Use stable workflow slugs, not task IDs.
+     - Example: `docs/architecture/sequences/user-login.md`
+   - When a new ADR or sequence file is planned, also plan the matching index update.
    - Do not bootstrap missing C4/sequence/ADR files from `pp-task`.
 
 10. **Present the task spec** for approval.
@@ -141,6 +150,8 @@ planned architecture updates.
    - If neither exists, request revision and do not finalize.
    - If ADR or Sequence Diagram is marked `required`, `## Subtasks` must include
      concrete create/update entries for those files.
+   - If `C4 / System Map` is marked `required`, `## Planned Architecture Updates`
+     must name the exact C4/system-map files to be updated.
 
 12. **Set Work in Progress** in `plan/plan.md` to `task-{id}.md`.
 

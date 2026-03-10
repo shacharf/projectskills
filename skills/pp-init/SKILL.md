@@ -36,6 +36,8 @@ Scaffold or migrate PP project management files.
    - `docs/architecture/adrs/README.md` from `assets/architecture/adrs-README-template.md`
    - `docs/architecture/adrs/ADR-0001-architecture-baseline.md` from `assets/architecture/ADR-0001-template.md`
    - `docs/catalog/architecture-code-catalog.md` from `assets/catalog-template.md`
+   - Treat these files as the architecture baseline only; after init, ongoing
+     updates belong to `pp-implement`, not `pp-task` or `pp-arch-catalog`
 
 5. **Ensure pipeline config exists:**
    - Create `plan/PIPELINE.md` from `assets/pipeline-template.md` if missing

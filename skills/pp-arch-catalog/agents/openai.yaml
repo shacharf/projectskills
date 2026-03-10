@@ -1,4 +1,4 @@
 interface:
   display_name: "PP Arch Catalog"
-  short_description: "Generate architecture/code catalog and architecture docs"
-  default_prompt: "Scan the repo and generate the Architecture/Code Catalog plus architecture docs (C4 Mermaid, sequence Mermaid, ADR baseline, and system-map.yaml)."
+  short_description: "Bootstrap a legacy repo with a baseline architecture/code catalog and architecture docs"
+  default_prompt: "Scan the repo once to bootstrap the Architecture/Code Catalog and baseline architecture docs for a legacy project. After bootstrap, pp-implement owns ongoing architecture updates."
