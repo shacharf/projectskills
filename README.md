@@ -12,6 +12,9 @@ PP is a workflow system for planning and executing projects incrementally with a
 /pp-init <language>
 ```
 
+`/pp-init` is fresh initialization only. It requires an explicit language and
+derives the project name from the current directory without prompting.
+
 `/pp-init` scaffolds:
 - `plan/*` planning files
 - `docs/architecture/README.md`

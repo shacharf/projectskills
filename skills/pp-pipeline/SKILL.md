@@ -12,8 +12,9 @@ Validate and summarize the project-specific pipeline configuration.
 
 1. **Check that `plan/` exists.** If not, tell the user to run `/pp-init`.
 
-2. **Read `plan/PIPELINE.md`.** If missing, tell the user to run `/pp-init` to
-   generate or migrate pipeline config.
+2. **Read `plan/PIPELINE.md`.** If missing, tell the user the PP pipeline is not
+   initialized correctly; create `plan/PIPELINE.md` from the template or re-run
+   `/pp-init <language>` in a fresh project.
 
 3. **Validate required structure:**
    - `# Pipeline`

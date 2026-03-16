@@ -37,8 +37,9 @@ Normalize the selected mode into downstream orchestration context:
    - Project has tasks or needs `/pp-plan`
    - Current `## Work in Progress` task file
 
-3. **Read `plan/PIPELINE.md`.** If missing -> tell user to run `/pp-init` to
-   migrate/generate pipeline config.
+3. **Read `plan/PIPELINE.md`.** If missing -> tell the user the PP pipeline is
+   not initialized correctly; restore `plan/PIPELINE.md` from the template or
+   re-run `/pp-init <language>` in a fresh project.
 
 4. **Determine active stage:**
    - If no tasks -> state `needs-plan` (next action: `/pp-plan`)
@@ -132,5 +133,5 @@ Then:
 - If action skill fails, report failure and stop the automatic flow.
 - If a stage action returns without marking its current stage complete, stop the automatic flow and report the blocker.
 - If pipeline config is missing/malformed, report exact issue and suggest `/pp-pipeline`.
-- If task Progress and pipeline stage IDs diverge, report mismatch and suggest migration via `/pp-init`.
+- If task Progress and pipeline stage IDs diverge, report the mismatch and suggest fixing `plan/PIPELINE.md` or regenerating planning state manually.
 - If a run with `commit_policy: mandatory` reaches task completion but the required commit fails, stop and report `commit required`.

@@ -21,7 +21,7 @@ project-specific pipeline in `plan/PIPELINE.md`.
 
 ### Quick Start
 
-1. `/pp-init <language>` -- scaffold or migrate project planning files
+1. `/pp-init <language>` -- initialize fresh project planning files
 2. `/pp-arch-catalog` -- **Legacy only** - bootstrap architecture documentation for an existing project once.
 3. `/pp-plan` -- create or revise the task plan
 4. `/pp-next` -- run the next stage from the pipeline, repeat this stage until done.
@@ -32,7 +32,7 @@ project-specific pipeline in `plan/PIPELINE.md`.
 
 | Command | Purpose |
 |---------|---------|
-| `/pp-init <language>` | Scaffold/migrate `plan/` files and the full architecture baseline |
+| `/pp-init <language>` | Initialize fresh `plan/` files and the full architecture baseline |
 | `/pp-plan` | Create or revise project task list |
 | `/pp-task` | Plan next task, create full `task-{id}.md` spec (subtasks, drafts, architecture updates; no architecture bootstrap) |
 | `/pp-design-review` | Review and gate task spec before implementation |

@@ -1,28 +1,30 @@
 ---
 name: pp-init
-description: Scaffold or migrate a PP project structure with plan/, templates, language profile, and project-specific pipeline configuration.
+description: Initialize a fresh PP project structure with plan/, templates, language profile, and project-specific pipeline configuration.
 disable-model-invocation: true
 ---
 
 # PP Init
 
-Scaffold or migrate PP project management files.
+Initialize PP project management files for a fresh project.
 
 ## Instructions
 
 1. **Detect project state:**
+   - If `plan/` already exists: stop and tell the user `pp-init` is for fresh initialization only
    - If `plan/` does not exist: initialize a new PP project
-   - If `plan/` exists: run migration-safe init (preserve existing plan content)
 
-2. **Collect project name for new setup.** Use AskQuestion when creating new `plan/`.
-
-3. **Resolve primary language.**
-   - Parse optional `/pp-init <language>` argument
+2. **Resolve primary language from the command argument.**
+   - Require `/pp-init <language>`
    - Canonical: `python`, `arduino`
    - Alias: `py` -> `python`
-   - Ask user if missing/invalid
+   - If missing or invalid, fail with a short usage message; do not ask questions
 
-4. **Ensure base files exist** (create if missing):
+3. **Derive project name automatically.**
+   - Use the current working directory basename as `{PROJECT_NAME}`
+   - Do not ask the user for project name
+
+4. **Create the PP baseline files:**
    - `plan/plan.md` from `assets/plan-template.md`
    - `plan/language.md` from `assets/languages/{language}/language-template.md`
    - `plan/AGENTS.md` from `assets/languages/{language}/agents-template.md`
@@ -39,42 +41,18 @@ Scaffold or migrate PP project management files.
    - Treat these files as the architecture baseline only; after init, ongoing
      updates belong to `pp-implement`, not `pp-task` or `pp-arch-catalog`
 
-5. **Ensure pipeline config exists:**
-   - Create `plan/PIPELINE.md` from `assets/pipeline-template.md` if missing
-   - If present, keep user-customized content, but normalize legacy shape to
-     canonical schema when needed.
-   - Legacy normalization rules:
-     - Heading `# PP Pipeline` -> `# Pipeline`
-     - Missing `version` -> add `version: 1`
-     - Scalar actions (e.g. `actions: pp-task`) ->
-       list form:
-       `actions:`
-       `  - skill: pp-task`
-   - Preserve existing stage order and checkbox semantics during normalization.
-   - Do not require users to manually rewrite `PIPELINE.md` for these format
-     differences.
+5. **Create pipeline config:**
+   - Create `plan/PIPELINE.md` directly from `assets/pipeline-template.md`
+   - Do not normalize legacy formats
+   - Do not preserve or merge existing pipeline content
 
-6. **Run one-time migration for existing tasks (if needed):**
-   - Read stage IDs from `plan/PIPELINE.md`
-   - For each `plan/task-*.md`, map legacy labels to stage IDs:
-     - `task planned` -> `task-planned`
-     - `interface designed` -> `design-reviewed`
-     - `interface-designed` -> `design-reviewed`
-     - `design review` -> `design-reviewed`
-     - `implemented` -> `implemented`
-     - `code review` -> `code-reviewed`
-     - `code-review` -> `code-reviewed`
-     - `code reviewed` -> `code-reviewed`
-     - `tested` -> `tested`
-     - `completed` -> `completed`
-   - Preserve checkbox state and stage order from pipeline where possible
+6. **Copy PP rule** to `.cursor/rules/pp-conventions.mdc`.
 
-7. **Copy PP rule** to `.cursor/rules/pp-conventions.mdc`.
-
-8. **Report success:**
-   - New or migrated mode
+7. **Report success:**
+   - Fresh initialization completed
+   - Derived project name
    - Selected language
-   - Whether `PIPELINE.md` was created or reused
+   - Baseline files created
    - Tell user to run `/pp-pipeline`, `/pp-plan`, or `/pp-next`
 
 ## Template Locations

@@ -23,7 +23,8 @@ If the argument is not one of `summary` or `print`, run wizard mode.
 ## Common Preconditions
 
 1. Check `plan/` exists. If not, tell user to run `/pp-init`.
-2. Read `plan/PIPELINE.md`. If missing, tell user to run `/pp-init`.
+2. Read `plan/PIPELINE.md`. If missing, tell the user to restore it from the
+   template or re-run `/pp-init <language>` in a fresh project.
 3. For `print` mode:
    - Print raw file as-is (no schema validation required).
 4. For `summary` and wizard modes:
