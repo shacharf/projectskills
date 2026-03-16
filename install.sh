@@ -109,7 +109,7 @@ install_pp() {
     echo "  /pp-task       Plan the next task"
     echo "  /pp-design-review  Review/gate task design"
     echo "  /pp-implement  Implement the task"
-    echo "  /pp-review     Review the implementation"
+    echo "  /pp-code-review  Review the implementation"
     echo "  /pp-test       Run minimal test"
     echo "  /pp-done       Complete the task"
     echo "  /pp-next       Orchestrator (step, auto, continue-task, continue-all)"

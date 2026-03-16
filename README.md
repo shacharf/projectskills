@@ -51,7 +51,7 @@ The default pipeline moves left-to-right through the stages below. In step mode,
 - `task-planned` (`pp-task`): Creates complete `task-{id}.md` specs, including explicit ADR and sequence-diagram subtasks when architecture-impacting work requires them.
 - `design-reviewed` (`pp-design-review`): Hard gate to review and iterate task design before implementation.
 - `implemented` (`pp-implement`): Executes approved subtasks and creates/updates planned ADR, sequence, C4, and system-map artifacts.
-- `reviewed` (`pp-review`): Reviews implementation quality, requirement fit, and whether planned architecture artifacts are compatible and up to date (default `auto: skip`).
+- `code-reviewed` (`pp-code-review`): Reviews implementation quality, requirement fit, and whether planned architecture artifacts are compatible and up to date.
 - `tested` (`pp-test`): Adds/runs minimal tests aligned with acceptance criteria.
 - `completed` (`pp-done`): Finalizes task state and applies incremental catalog deltas (no full catalog recompute).
 
@@ -59,7 +59,7 @@ The default pipeline moves left-to-right through the stages below. In step mode,
 flowchart LR
     A["task-planned<br/>/pp-task"] --> B["design-reviewed<br/>/pp-design-review"]
     B --> C["implemented<br/>/pp-implement"]
-    C --> D["reviewed<br/>/pp-review"]
+    C --> D["code-reviewed<br/>/pp-code-review"]
     D --> E["tested<br/>/pp-test"]
     E --> F["completed<br/>/pp-done"]
 ```
@@ -121,7 +121,7 @@ These skills are orchestration internals and are usually invoked through `/pp-ne
 - `/pp-task`
 - `/pp-design-review`
 - `/pp-implement`
-- `/pp-review`
+- `/pp-code-review`
 - `/pp-test`
 - `/pp-commit`
 - `/pp-done`

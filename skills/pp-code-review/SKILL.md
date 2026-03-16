@@ -1,13 +1,13 @@
 ---
-name: pp-review
+name: pp-code-review
 description: Review the implementation of the current task against acceptance criteria and coding standards.
 disable-model-invocation: true
 ---
 
-# PP Review
+# PP Code Review
 
-Review the implementation of the current task. This step is optional when the
-pipeline marks it with `auto_behavior: skip`.
+Review the implementation of the current task. This stage is read-only. If
+issues are found, report them and leave the stage incomplete.
 
 ## Instructions
 
@@ -38,18 +38,24 @@ pipeline marks it with `auto_behavior: skip`.
    - **API clarity:** Are public APIs well-named and documented?
 
 4. **Present findings** to the user:
+   - Final outcome: `pass` or `issues-found`
    - Issues found (if any), categorized by severity
    - Suggestions for improvement
    - Confirmation of what looks good
 
-5. **Check `[x] reviewed`** in the task's Progress section.
+5. **Mark progress only on pass:**
+   - If the outcome is `pass`, check `[x] code-reviewed` in the task's Progress section
+   - If the outcome is `issues-found`, do not mark the stage complete
 
-6. **Tell the user** to run `/pp-test` or `/pp-next` next.
+6. **Tell the user** what to do next:
+   - If the outcome is `pass`, suggest `/pp-test` or `/pp-next`
+   - If the outcome is `issues-found`, suggest `/pp-implement` or `/pp-next`
 
 ## If Review Finds Issues
 
 If significant issues are found:
 - List them clearly with file paths and line references
 - Suggest specific fixes
-- The user may choose to fix issues before proceeding, or proceed anyway
+- The user decides what to do next; do not continue automatically from this stage
 - Do NOT automatically modify code during review -- just report findings
+- Do NOT mark `code-reviewed` complete

@@ -62,7 +62,9 @@ Scaffold or migrate PP project management files.
      - `interface-designed` -> `design-reviewed`
      - `design review` -> `design-reviewed`
      - `implemented` -> `implemented`
-     - `reviewed` -> `reviewed`
+     - `code review` -> `code-reviewed`
+     - `code-review` -> `code-reviewed`
+     - `code reviewed` -> `code-reviewed`
      - `tested` -> `tested`
      - `completed` -> `completed`
    - Preserve checkbox state and stage order from pipeline where possible

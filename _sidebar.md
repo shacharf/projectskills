@@ -28,7 +28,7 @@
 * [skills/pp-next/SKILL.md](skills/pp-next/SKILL.md)
 * [skills/pp-pipeline/SKILL.md](skills/pp-pipeline/SKILL.md)
 * [skills/pp-plan/SKILL.md](skills/pp-plan/SKILL.md)
-* [skills/pp-review/SKILL.md](skills/pp-review/SKILL.md)
+* [skills/pp-code-review/SKILL.md](skills/pp-code-review/SKILL.md)
 * [skills/pp-stage-runner/SKILL.md](skills/pp-stage-runner/SKILL.md)
 * [skills/pp-status/SKILL.md](skills/pp-status/SKILL.md)
 * [skills/pp-task/SKILL.md](skills/pp-task/SKILL.md)

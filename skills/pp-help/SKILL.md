@@ -37,7 +37,7 @@ project-specific pipeline in `plan/PIPELINE.md`.
 | `/pp-task` | Plan next task, create full `task-{id}.md` spec (subtasks, drafts, architecture updates; no architecture bootstrap) |
 | `/pp-design-review` | Review and gate task spec before implementation |
 | `/pp-implement` | Implement active task and own ongoing architecture doc updates |
-| `/pp-review` | Review implementation |
+| `/pp-code-review` | Review implementation code and artifacts |
 | `/pp-test` | Create and run minimal verification |
 | `/pp-commit` | Create a focused task commit |
 | `/pp-done` | Finalize task docs, patch catalog deltas, mark task done, and own task-end commit policy |
@@ -57,7 +57,7 @@ project-specific pipeline in `plan/PIPELINE.md`.
 `/pp-next` uses ordered stages in `plan/PIPELINE.md`.
 Default pipeline:
 
-`task-planned -> design-reviewed -> implemented -> reviewed -> tested -> completed`
+`task-planned -> design-reviewed -> implemented -> code-reviewed -> tested -> completed`
 
 Projects can customize stage order, approval gates, and auto-skip behavior in
 `plan/PIPELINE.md`.
@@ -89,6 +89,7 @@ In **continue modes**:
 - Both modes stop and ask the user if a real decision is required
 - End-of-task git commit is mandatory only in continue modes, and `pp-done` owns that policy
 - Internally, `/pp-next` passes normalized orchestration policy to downstream skills instead of requiring them to infer behavior from command names
+- In automatic modes, any stage that does not mark itself complete causes orchestration to pause and surface the blocker
 
 ### Approval Gates
 

@@ -74,7 +74,7 @@ and architecture updates.
    - Confirm ADR/sequence index files updated when new artifact files were added
    - Summarize architecture files updated
    - Note any deviations from reviewed design or open questions
-   - Suggest `/pp-review` or `/pp-test` next (or `/pp-next`)
+   - Suggest `/pp-code-review` or `/pp-test` next (or `/pp-next`)
 
 ## Key Principles
 

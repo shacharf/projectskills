@@ -110,12 +110,13 @@ Then:
    - Preserve the normalized orchestration context when invoking downstream skills, especially `pp-done`
 8. In every automatic mode, stop immediately and ask the user if a real decision is required, including:
    - re-plan/overwrite choice for an existing task file
-   - design review, review, or test output that requires user judgment to proceed
+   - design review, code review, or test output that requires user judgment to proceed
    - commit conflict or any git state that cannot be resolved deterministically
 
 ### Step 5: After Each Stage
 
 1. Verify the stage ID was checked `[x]` in task Progress.
+   - If the stage was not checked complete, stop automatic execution and surface the stage result to the user
 2. Re-derive state.
 3. In step mode: show next stage and ask again.
 4. In auto mode: continue until a pause condition or project completion.
@@ -129,6 +130,7 @@ Then:
 ## Error Handling
 
 - If action skill fails, report failure and stop the automatic flow.
+- If a stage action returns without marking its current stage complete, stop the automatic flow and report the blocker.
 - If pipeline config is missing/malformed, report exact issue and suggest `/pp-pipeline`.
 - If task Progress and pipeline stage IDs diverge, report mismatch and suggest migration via `/pp-init`.
 - If a run with `commit_policy: mandatory` reaches task completion but the required commit fails, stop and report `commit required`.

@@ -27,12 +27,12 @@ on_error: pause
   approval_gate: false
   auto_behavior: run
 
-- id: reviewed
-  label: Reviewed
+- id: code-reviewed
+  label: Code Reviewed
   actions:
-    - skill: pp-review
+    - skill: pp-code-review
   approval_gate: false
-  auto_behavior: skip
+  auto_behavior: run
 
 - id: tested
   label: Tested
