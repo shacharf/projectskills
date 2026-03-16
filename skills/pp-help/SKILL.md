@@ -16,7 +16,7 @@ Print the following guide to the user:
 
 **PP -- Project Planning & Implementing**
 
-A human-gated project lifecycle managed through project-local skills and a
+A human-guided project lifecycle managed through project-local skills and a
 project-specific pipeline in `plan/PIPELINE.md`.
 
 ### Quick Start
@@ -39,14 +39,16 @@ project-specific pipeline in `plan/PIPELINE.md`.
 | `/pp-implement` | Implement active task and own ongoing architecture doc updates |
 | `/pp-review` | Review implementation |
 | `/pp-test` | Create and run minimal verification |
-| `/pp-commit` | Suggest and track task commit step |
-| `/pp-done` | Finalize task docs, patch catalog deltas, and mark task done |
+| `/pp-commit` | Create a focused task commit |
+| `/pp-done` | Finalize task docs, patch catalog deltas, mark task done, and own task-end commit policy |
 | `/pp-pipeline` | Validate and summarize pipeline config |
 | `/pp-pipeline-edit` | Edit pipeline config (wizard), or use `summary` / `print` modes |
 | `/pp-todo` | Add/list future-reference TODO items in `plan/todo.md` (not pipeline-driven) |
 | `/pp-arch-catalog` | Bootstrap legacy repo architecture/catalog artifacts once |
 | `/pp-next` | Orchestrator based on `PIPELINE.md` |
 | `/pp-next auto` | Auto-advance with per-stage gate rules |
+| `/pp-next continue-task` | Bypass approval gates until the current task is completed |
+| `/pp-next continue-all` | Bypass approval gates until all remaining tasks are completed |
 | `/pp-status` | Show project and active stage status |
 | `/pp-help` | Show this guide |
 
@@ -68,6 +70,8 @@ In **step mode** (`/pp-next`), the orchestrator prompts for:
 - `skip` -- mark current stage as complete and move on
 - `replan` -- run `/pp-plan` to revise tasks
 - `auto` -- switch to auto mode
+- `continue-task` -- bypass approval gates until the current task is completed
+- `continue-all` -- bypass approval gates until all remaining tasks are completed
 - `stop` -- pause orchestration
 
 In **auto mode** (`/pp-next auto`):
@@ -76,9 +80,20 @@ In **auto mode** (`/pp-next auto`):
 - Stages with `approval_gate: true` pause for approval before continuing
 - Stages with `approval_gate: false` continue automatically
 
+In **continue modes**:
+
+- `/pp-next continue-task` runs the current workflow to the end of one task
+- `/pp-next continue-all` continues across tasks until the project is complete
+- Both modes still honor `auto_behavior: skip`
+- Both modes ignore `approval_gate`
+- Both modes stop and ask the user if a real decision is required
+- End-of-task git commit is mandatory only in continue modes, and `pp-done` owns that policy
+- Internally, `/pp-next` passes normalized orchestration policy to downstream skills instead of requiring them to infer behavior from command names
+
 ### Approval Gates
 
 Approval is per stage via `approval_gate: true|false` in `plan/PIPELINE.md`.
+`approval_gate` is honored by `/pp-next auto` and step-mode prompts; it is ignored by the continue modes.
 
 ### Pipeline Editing
 

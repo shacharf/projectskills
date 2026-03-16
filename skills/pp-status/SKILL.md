@@ -49,3 +49,9 @@ Active Task: {task title}
 
 Next action: {skill(s)} (or /pp-next)
 ```
+
+7. **When showing orchestration guidance for an active task or pending tasks,**
+   mention the available automatic modes:
+   - `/pp-next auto` -- respect approval gates
+   - `/pp-next continue-task` -- bypass approval gates until one task is complete
+   - `/pp-next continue-all` -- bypass approval gates until all tasks are complete

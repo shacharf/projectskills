@@ -36,13 +36,17 @@ Most projects should use only these commands:
 2. `/pp-next` -- run the next stage from the active pipeline.
 
 Use `/pp-next auto` to auto-advance and pause only at approval gates.
+Use `/pp-next continue-task` to finish one task while bypassing approval gates.
+Use `/pp-next continue-all` to finish all remaining tasks while bypassing approval gates.
+Continue modes require a git commit at the end of each task, owned by `pp-done`.
+Internally, `/pp-next` passes normalized orchestration policy downstream instead of making leaf skills infer behavior from command names.
 
 Project state is tracked in `plan/plan.md`, with stage policy in `plan/PIPELINE.md`.
 Architecture artifacts live under `docs/architecture/`.
 
 ## Default Pipeline
 
-The default pipeline moves left-to-right through the stages below. In step mode, each stage is proposed one at a time; in auto mode, behavior is controlled by `approval_gate` and `auto_behavior`.
+The default pipeline moves left-to-right through the stages below. In step mode, each stage is proposed one at a time; in auto mode, behavior is controlled by `approval_gate` and `auto_behavior`. The continue modes honor `auto_behavior` but bypass `approval_gate`.
 
 - `task-planned` (`pp-task`): Creates complete `task-{id}.md` specs, including explicit ADR and sequence-diagram subtasks when architecture-impacting work requires them.
 - `design-reviewed` (`pp-design-review`): Hard gate to review and iterate task design before implementation.
@@ -80,9 +84,13 @@ The most important project files are:
 These are user-facing runtime commands for pipeline control and visibility:
 
 - `/pp-next`
-  Execute the next stage in step mode (`yes`, `skip`, `replan`, `auto`, `stop`).
+  Execute the next stage in step mode (`yes`, `skip`, `replan`, `auto`, `continue-task`, `continue-all`, `stop`).
 - `/pp-next auto`
   Execute automatically based on per-stage gate and auto behavior rules.
+- `/pp-next continue-task`
+  Execute automatically until the current task is completed, bypassing approval gates.
+- `/pp-next continue-all`
+  Execute automatically until all remaining tasks are completed, bypassing approval gates.
 - `/pp-status`
   Show current task/stage state and next action.
 - `/pp-pipeline`
@@ -142,5 +150,13 @@ To remove:
 - `agents/` - helper subagent definitions
 - `install.sh` - installer/uninstaller
 
+## Helpful tools
+- `docsify` to view the plans
+- `meld` to view diffs
+
 # Notes
 * My experience is that this pipeline works well with *codex*, it did not work for me with *cursor*.
+
+# Future enhancements
+* Simplified documentation requirements
+* Simple support for manual code updates

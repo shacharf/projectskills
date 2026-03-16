@@ -13,6 +13,7 @@ Run a single stage from `plan/PIPELINE.md` by executing its action skills in ord
 1. **Inputs required:**
    - Stage ID to run
    - Active task file (from `plan/plan.md` Work in Progress)
+   - Optional normalized orchestration context from `pp-next`
 
 2. **Load pipeline config.** Read `plan/PIPELINE.md` and find the target stage.
    If not found, report an error.
@@ -23,6 +24,11 @@ Run a single stage from `plan/PIPELINE.md` by executing its action skills in ord
 
 4. **Execute actions in order:**
    - For each action `skill`, read that skill's `SKILL.md` and execute it inline
+   - Preserve normalized orchestration context when present:
+     - `gate_policy`
+     - `commit_policy`
+     - `run_scope`
+   - Do not require downstream skills to infer policy from the original `/pp-next` command text
    - Stop at first failure
    - Report which action failed and why
 

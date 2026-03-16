@@ -35,6 +35,8 @@ Validate and summarize the project-specific pipeline configuration.
    - Ordered stage list (`id`, `label`)
    - Which stages are approval gates
    - Which stages are auto-skipped
+   - Note that `approval_gate` affects step mode and `/pp-next auto`; `/pp-next continue-task`
+     and `/pp-next continue-all` bypass those gates
    - Any validation errors and concrete fixes
 
 6. **If valid**, suggest `/pp-next` to execute using this pipeline.

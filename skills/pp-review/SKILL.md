@@ -6,8 +6,8 @@ disable-model-invocation: true
 
 # PP Review
 
-Review the implementation of the current task. This step is optional and can be
-skipped in auto mode.
+Review the implementation of the current task. This step is optional when the
+pipeline marks it with `auto_behavior: skip`.
 
 ## Instructions
 

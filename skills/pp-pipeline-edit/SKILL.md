@@ -9,6 +9,9 @@ disable-model-invocation: true
 Edit `plan/PIPELINE.md` using safe operations. Supports read-only CLI modes for
 summary and raw file output.
 
+`approval_gate` and `auto_behavior` remain pipeline-stage settings. Continue modes
+in `/pp-next` are an orchestrator behavior and do not change the pipeline schema.
+
 ## Invocation Modes
 
 - `/pp-pipeline-edit` -> interactive edit wizard
@@ -45,6 +48,7 @@ Print a concise summary only:
 - Ordered stages
 - For each stage: `id`, `label`, `approval_gate`, `auto_behavior`, action skills
 - Total stage count
+- Reminder that continue modes bypass `approval_gate` but still honor `auto_behavior`
 - If legacy format was normalized in-memory, mention that in output.
 
 Do not modify any files.

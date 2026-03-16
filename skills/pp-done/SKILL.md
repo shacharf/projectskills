@@ -12,6 +12,7 @@ Complete the active task, commit final task artifacts, and close planning state.
 
 1. **Find the active task.** Read `## Work in Progress` in `plan/plan.md`.
    If empty, report there is no active task.
+   Capture the task file, task ID, and task title for later commit use.
 
 2. **Verify completion prerequisites:**
    - Read `plan/PIPELINE.md` and identify final stage ID (default: `completed`)
@@ -52,16 +53,26 @@ Complete the active task, commit final task artifacts, and close planning state.
 8. **Prepare commit for final task artifacts:**
    - Show `git status --short`
    - Suggest default commit message: `Task {id}: complete {task title}`
-   - Ask user to confirm commit now or proceed without commit
-   - If user confirms commit:
-     - Execute `pp-commit` and pass context (task id/title + suggested message)
+   - If downstream orchestration context says `commit_policy: mandatory`:
+     - Commit is mandatory for this task completion
+     - Execute `pp-commit` using the captured task context and suggested message
      - Ensure commit includes:
        - implementation changes
        - `plan/task-{id}.md` summary updates
        - `docs/catalog/architecture-code-catalog.md` updates
        - `plan/plan.md` task completion + WIP clear updates
-     - If commit fails, report failure and keep status as `commit pending`
-   - If user declines commit, continue with status `commit skipped by user`
+     - If commit fails, stop and report `commit required`
+   - Otherwise:
+     - Ask user to confirm commit now or proceed without commit
+     - If user confirms commit:
+       - Execute `pp-commit` using the captured task context and suggested message
+       - Ensure commit includes:
+         - implementation changes
+         - `plan/task-{id}.md` summary updates
+         - `docs/catalog/architecture-code-catalog.md` updates
+         - `plan/plan.md` task completion + WIP clear updates
+       - If commit fails, report failure and keep status as `commit pending`
+     - If user declines commit, continue with status `commit skipped by user`
 
 9. **Report result:**
    - Summary of completion
@@ -74,3 +85,6 @@ Complete the active task, commit final task artifacts, and close planning state.
 
 - If the project pipeline includes a dedicated commit stage, avoid duplicate
   commits and follow pipeline order.
+- `pp-done` owns commit policy.
+- `pp-done` should finish task-state mutations before invoking `pp-commit`.
+- If orchestration context is absent, default to `commit_policy: optional`.

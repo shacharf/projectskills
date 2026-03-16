@@ -112,7 +112,7 @@ install_pp() {
     echo "  /pp-review     Review the implementation"
     echo "  /pp-test       Run minimal test"
     echo "  /pp-done       Complete the task"
-    echo "  /pp-next       Orchestrator (step or auto mode)"
+    echo "  /pp-next       Orchestrator (step, auto, continue-task, continue-all)"
     echo "  /pp-status     Show project status"
     echo "  /pp-help       Show workflow guide"
     echo ""
